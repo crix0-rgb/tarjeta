@@ -1,0 +1,102 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Tarjeta de Regalo</title>
+    <style>
+        /* Estilos generales para centrar la tarjeta */
+        body {
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            height: 100vh;
+            background-color: #2c3e50;
+            font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+            margin: 0;
+        }
+
+        /* Contenedor con perspectiva 3D */
+        .card-container {
+            perspective: 1000px;
+        }
+
+        /* La tarjeta en sí */
+        .card {
+            width: 320px;
+            height: 200px;
+            position: relative;
+            transition: transform 0.8s cubic-bezier(0.175, 0.885, 0.32, 1.275);
+            transform-style: preserve-3d;
+            cursor: pointer;
+        }
+
+        /* Clase que se activa al hacer clic para girar */
+        .card.is-flipped {
+            transform: rotateY(180deg);
+        }
+
+        /* Caras de la tarjeta (frente y reverso) */
+        .card-face {
+            position: absolute;
+            width: 100%;
+            height: 100%;
+            -webkit-backface-visibility: hidden; /* Oculta la parte trasera para Safari */
+            backface-visibility: hidden;
+            border-radius: 15px;
+            box-shadow: 0 15px 25px rgba(0,0,0,0.3);
+            display: flex;
+            flex-direction: column;
+            justify-content: center;
+            align-items: center;
+            text-align: center;
+            padding: 20px;
+            box-sizing: border-box;
+        }
+
+        /* Diseño del frente */
+        .card-front {
+            background: linear-gradient(135deg, #e74c3c, #c0392b);
+            color: white;
+        }
+
+        /* Diseño del reverso */
+        .card-back {
+            background: #ecf0f1;
+            color: #2c3e50;
+            transform: rotateY(180deg);
+        }
+
+        /* Tipografías y detalles */
+        .gift-icon { font-size: 50px; margin-bottom: 10px; }
+        .title { font-size: 24px; font-weight: bold; margin: 0; }
+        .subtitle { font-size: 14px; opacity: 0.8; margin-top: 5px; }
+        .amount { font-size: 26px; color: #e74c3c; font-weight: bold; margin: 15px 0; }
+        .message { font-size: 15px; color: #555; margin: 0; }
+    </style>
+</head>
+<body>
+
+<div class="card-container">
+    <!-- El atributo onclick alterna la clase 'is-flipped' para lograr el giro -->
+    <div class="card" onclick="this.classList.toggle('is-flipped')">
+        
+        <!-- Cara Frontal -->
+        <div class="card-face card-front">
+            <div class="gift-icon">🎁</div>
+            <p class="title">¡Tienes un regalo!</p>
+            <p class="subtitle">Toca la tarjeta para abrir</p>
+        </div>
+
+        <!-- Cara Trasera -->
+        <div class="card-face card-back">
+            <p class="title">¡Felicidades!</p>
+            <p class="amount">Vale por una Cena</p>
+            <p class="message">Disfruta de este detalle especial. Puedes canjearlo cuando quieras.</p>
+        </div>
+
+    </div>
+</div>
+
+</body>
+</html>

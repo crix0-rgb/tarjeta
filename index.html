@@ -3,48 +3,49 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>¡Sorpresa Arácnida!</title>
+    <title>Multiverso de Regalos</title>
     <style>
-        /* Importamos una fuente tipo cómic de Google Fonts */
-        @import url('https://fonts.googleapis.com/css2?family=Bangers&display=swap');
+        /* Tipografía de cómic para Spiderman y tipografía redondeada para el resto */
+        @import url('https://fonts.googleapis.com/css2?family=Bangers&family=Poppins:wght@400;600;700&display=swap');
 
         body {
             margin: 0;
-            padding: 0;
             display: flex;
             justify-content: center;
             align-items: center;
             min-height: 100vh;
-            background-color: #0d1b2a; /* Fondo oscuro tipo noche en la ciudad */
-            font-family: 'Arial', sans-serif;
-            overflow: hidden; /* Evita que la pantalla haga scroll cuando caiga la tapa */
-        }
-
-        .gift-container {
-            position: relative;
-            width: 320px;
-            height: 450px;
+            background-color: #111;
+            font-family: 'Poppins', sans-serif;
+            overflow: hidden;
         }
 
         /* -------------------------------------
-           CONTENIDO INTERIOR (La Sorpresa)
+           CONTENEDOR (Más grande)
+           ------------------------------------- */
+        .gift-container {
+            position: relative;
+            width: 400px;
+            height: 550px;
+            max-width: 90vw; /* Se ajusta si la pantalla del celular es muy pequeña */
+        }
+
+        /* -------------------------------------
+           SORPRESA INTERIOR (Pumas + Harry + Spidey)
            ------------------------------------- */
         .content {
             position: absolute;
-            top: 0;
-            left: 0;
-            width: 100%;
-            height: 100%;
-            background: linear-gradient(135deg, #003bbc, #002379); /* Azul Spider-Man */
+            top: 0; left: 0; width: 100%; height: 100%;
+            /* Degradado de Azul Profundo (Pumas), Oro y Morado */
+            background: linear-gradient(135deg, #0A1C40 0%, #D4AF37 55%, #6B3FA0 100%);
             border-radius: 15px;
-            border: 5px solid #e23636;
+            border: 6px solid #e23636; /* Borde rojo Spider-Man */
             box-shadow: 0 10px 30px rgba(0,0,0,0.5);
             display: flex;
             flex-direction: column;
-            justify-content: center;
+            justify-content: space-evenly;
             align-items: center;
             text-align: center;
-            padding: 25px;
+            padding: 30px;
             box-sizing: border-box;
             color: white;
         }
@@ -52,41 +53,59 @@
         .content h1 {
             font-family: 'Bangers', cursive; 
             font-size: 3.5em;
-            color: #e23636; /* Rojo Spider-Man */
-            /* Borde blanco al texto para estilo cómic */
+            color: #e23636; 
             text-shadow: 2px 2px 0 #fff, -2px -2px 0 #fff, 2px -2px 0 #fff, -2px 2px 0 #fff;
             margin: 0;
-            letter-spacing: 2px;
             line-height: 1;
+            letter-spacing: 2px;
         }
 
-        .content p {
-            font-size: 1.2em;
-            margin-top: 20px;
-            line-height: 1.5;
+        .pumas-text {
+            font-weight: 700;
+            font-size: 1.4em;
+            color: #0A1C40; /* Azul Pumas */
+            background-color: #D4AF37; /* Fondo oro */
+            padding: 5px 15px;
+            border-radius: 10px;
+            margin: 10px 0;
+            text-transform: uppercase;
+            box-shadow: 2px 2px 5px rgba(0,0,0,0.3);
         }
 
-        .spider-icon {
-            font-size: 60px;
-            margin-top: 15px;
-            animation: swing 2s infinite ease-in-out alternate;
+        .spidey-text {
+            font-size: 1.1em;
+            font-weight: 600;
+            color: #fff;
+            text-shadow: 1px 1px 2px rgba(0,0,0,0.8);
         }
 
-        @keyframes swing {
-            0% { transform: rotate(-10deg); }
-            100% { transform: rotate(10deg); }
+        .harry-text {
+            font-style: italic;
+            font-size: 1.3em;
+            color: #f7e8ff;
+            margin: 10px 0;
+            text-shadow: 0px 0px 8px #d68cff;
+        }
+
+        .icons-row {
+            font-size: 45px;
+            display: flex;
+            gap: 20px;
+            animation: float 3s infinite ease-in-out alternate;
+        }
+
+        @keyframes float {
+            0% { transform: translateY(-5px); }
+            100% { transform: translateY(5px); }
         }
 
         /* -------------------------------------
-           ENVOLTURA (La que se cae)
+           ENVOLTURA (Roja con listones morados)
            ------------------------------------- */
         .wrapper {
             position: absolute;
-            top: 0;
-            left: 0;
-            width: 100%;
-            height: 100%;
-            background-color: #e23636; /* Rojo */
+            top: 0; left: 0; width: 100%; height: 100%;
+            background-color: #e23636; 
             border-radius: 15px;
             box-shadow: 0 10px 30px rgba(0,0,0,0.5);
             cursor: pointer;
@@ -94,7 +113,6 @@
             flex-direction: column;
             justify-content: center;
             align-items: center;
-            /* Efecto de cuadrícula/telaraña sutil en el fondo */
             background-image: 
                 linear-gradient(rgba(0, 0, 0, 0.2) 2px, transparent 2px),
                 linear-gradient(90deg, rgba(0, 0, 0, 0.2) 2px, transparent 2px);
@@ -103,66 +121,62 @@
             z-index: 10;
         }
 
-        /* Listones de la envoltura (Azul Spider-Man) */
+        /* Listones en color morado */
         .wrapper::before, .wrapper::after {
             content: '';
             position: absolute;
-            background-color: #003bbc;
+            background-color: #8e44ad; /* Detalles morados solicitados */
         }
 
-        /* Listón vertical */
         .wrapper::before {
-            width: 40px;
+            width: 50px;
             height: 100%;
             left: 50%;
             transform: translateX(-50%);
-            box-shadow: 0 0 15px rgba(0,0,0,0.4);
+            box-shadow: 0 0 15px rgba(0,0,0,0.5);
         }
 
-        /* Listón horizontal */
         .wrapper::after {
-            height: 40px;
+            height: 50px;
             width: 100%;
             top: 50%;
             transform: translateY(-50%);
-            box-shadow: 0 0 15px rgba(0,0,0,0.4);
+            box-shadow: 0 0 15px rgba(0,0,0,0.5);
         }
 
         .bow-center {
             position: absolute;
             z-index: 11;
-            font-size: 70px;
+            font-size: 80px;
             top: 50%;
             left: 50%;
             transform: translate(-50%, -50%);
-            text-shadow: 0 5px 15px rgba(0,0,0,0.5);
+            filter: drop-shadow(0 5px 10px rgba(0,0,0,0.6));
         }
 
         .click-text {
             position: absolute;
-            bottom: 30px;
-            background: rgba(0, 0, 0, 0.7);
-            padding: 5px 15px;
-            border-radius: 20px;
+            bottom: 35px;
+            background: #8e44ad; /* Fondo morado para el botón */
+            padding: 10px 25px;
+            border-radius: 25px;
             color: white;
             font-family: 'Bangers', cursive;
-            font-size: 1.5em;
-            letter-spacing: 1px;
+            font-size: 1.8em;
+            letter-spacing: 2px;
             z-index: 11;
             animation: pulse 1.5s infinite;
+            border: 3px solid #fff;
+            box-shadow: 0 5px 15px rgba(0,0,0,0.4);
         }
 
         @keyframes pulse {
             0%, 100% { transform: scale(1); }
-            50% { transform: scale(1.1); }
+            50% { transform: scale(1.08); }
         }
 
-        /* -------------------------------------
-           ANIMACIÓN DE CAÍDA (JavaScript activa esto)
-           ------------------------------------- */
         .wrapper.fall-down {
-            /* Mueve la caja hacia abajo fuera de la pantalla y la gira un poco */
-            transform: translateY(150vh) rotate(25deg);
+            transform: translateY(150vh) rotate(15deg);
             opacity: 0;
             pointer-events: none;
         }
@@ -173,28 +187,40 @@
 
 <div class="gift-container">
     
-    <!-- LO QUE HAY ADENTRO -->
+    <!-- CONTENIDO INTERIOR -->
     <div class="content">
-        <h1>¡Feliz Día!</h1>
-        <p>🕸️ Tu sentido arácnido no te engañaba... 🕸️</p>
-        <p>¡Disfruta de este regalo especial cortesía de tu amigable vecino!</p>
-        <div class="spider-icon">🕷️</div>
+        <h1>¡Sorpresa!</h1>
+        
+        <div class="pumas-text">¡Goya! ¡Goya! 🐾⚽</div>
+        
+        <p class="spidey-text">
+            Tu sentido arácnido no falló, te espera un regalo espectacular... 🕸️
+        </p>
+
+        <p class="harry-text">
+            "Treat People With Kindness" 🍉🦋<br>
+            ¡Que tengas un día asombroso!
+        </p>
+        
+        <div class="icons-row">
+            <span>🕷️</span>
+            <span>🐾</span>
+            <span>🍉</span>
+        </div>
     </div>
 
-    <!-- LA ENVOLTURA EXTERIOR -->
-    <!-- Al hacer clic, ejecuta la función de JavaScript -->
+    <!-- ENVOLTURA QUE CAE -->
     <div class="wrapper" id="giftWrapper" onclick="abrirRegalo()">
-        <div class="bow-center">🎀</div>
-        <div class="click-text">¡Toca para desenredar!</div>
+        <div class="bow-center">💜</div>
+        <div class="click-text">¡Ábrelo!</div>
     </div>
 
 </div>
 
 <script>
-    // Función que hace que la caja se caiga
     function abrirRegalo() {
         const wrapper = document.getElementById('giftWrapper');
-        wrapper.classList.add('fall-down'); // Añade la clase CSS de caída
+        wrapper.classList.add('fall-down');
     }
 </script>
 

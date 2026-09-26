@@ -3,378 +3,276 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Una Galaxia de Amor para Ti</title>
-    <script src="https://cdnjs.cloudflare.com/ajax/libs/three.js/r128/three.min.js"></script>
+    <title>Multiverso de la Amistad</title>
     <style>
-        @import url('https://fonts.googleapis.com/css2?family=Cinzel+Decorative:wght@700&family=Montserrat:wght@300;400;600&display=swap');
+        @import url('https://fonts.googleapis.com/css2?family=Montserrat:wght@300;400;600;700&display=swap');
 
         body {
             margin: 0;
             overflow: hidden;
-            background-color: #000002;
+            background-color: #03020a;
             font-family: 'Montserrat', sans-serif;
             color: white;
+            height: 100vh;
+            display: flex;
+            justify-content: center;
+            align-items: center;
         }
 
-        /* Lienzo de la galaxia 3D */
-        #canvas-container {
+        /* --------------------------------------------------
+           FONDO CÓSMICO PROFUNDO Y NEBULOSAS
+           -------------------------------------------------- */
+        .universe-bg {
             position: fixed;
             top: 0; left: 0; width: 100vw; height: 100vh;
+            background: radial-gradient(circle at 50% 50%, #1a0b36 0%, #070314 60%, #010105 100%);
             z-index: 0;
+            overflow: hidden;
         }
 
-        /* Corazón central 3D flotante sobre la galaxia */
-        .giant-particle-heart {
-            position: fixed;
-            top: 50%; left: 50%;
-            transform: translate(-50%, -55%);
-            font-size: 85px;
-            color: #ff69b4;
-            text-shadow: 0 0 30px #ff1493, 0 0 60px #ff69b4, 0 0 100px #da70d6, 0 0 160px #ffffff;
-            animation: heart-float 3.5s ease-in-out infinite alternate;
+        /* Estrellas estáticas y campo de polvo */
+        .stars {
+            position: absolute;
+            top: 0; left: 0; width: 100%; height: 100%;
+            background-image: 
+                radial-gradient(white 1px, transparent 0),
+                radial-gradient(rgba(255,105,180,0.8) 1.5px, transparent 0),
+                radial-gradient(rgba(135,206,250,0.8) 2px, transparent 0);
+            background-size: 180px 180px, 300px 300px, 420px 420px;
+            background-position: 0 0, 60px 90px, 150px 200px;
+            opacity: 0.8;
+        }
+
+        /* --------------------------------------------------
+           CONTENEDOR CENTRAL E INTERACTIVO (VÓRTICE)
+           -------------------------------------------------- */
+        .galaxy-scene {
+            position: relative;
+            width: 100vw; height: 100vh;
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            z-index: 2;
+        }
+
+        /* Título superior dinámico */
+        .header-title {
+            position: absolute;
+            top: 45px;
+            width: 100%;
+            text-align: center;
             z-index: 10;
             pointer-events: none;
         }
 
-        @keyframes heart-float {
-            0% { transform: translate(-50%, -50%) scale(0.95); }
-            100% { transform: translate(-50%, -60%) scale(1.08); }
+        .header-title h1 {
+            font-size: 2.2em;
+            font-weight: 700;
+            margin: 0 0 8px 0;
+            letter-spacing: 1px;
+            text-shadow: 0 0 20px rgba(255, 255, 255, 0.6);
         }
 
-        /* Capa de nodos flotantes interactivos estilo multiverso */
-        .nodes-layer {
-            position: fixed;
-            top: 0; left: 0; width: 100vw; height: 100vh;
-            display: flex;
-            justify-content: center;
-            align-items: center;
-            z-index: 15;
+        .header-title p {
+            font-size: 0.95em;
+            color: #cbd5e1;
+            font-weight: 300;
+            max-width: 500px;
+            margin: 0 auto;
+            line-height: 1.5;
+            padding: 0 20px;
+        }
+
+        /* Sistema de Órbitas Elípticas Interactivas */
+        .orbit-system {
+            position: absolute;
+            width: 700px; height: 420px;
+            transform-style: preserve-3d;
+        }
+
+        /* Vértice o centro del agujero negro / galaxia */
+        .vortex-center {
+            position: absolute;
+            top: 50%; left: 50%;
+            transform: translate(-50%, -50%);
+            width: 120px; height: 120px;
+            background: radial-gradient(circle, #000 30%, rgba(147, 51, 234, 0.6) 70%, transparent 100%);
+            border-radius: 50%;
+            box-shadow: 0 0 50px rgba(147, 51, 234, 0.8), inset 0 0 30px rgba(236, 72, 153, 0.5);
+            z-index: 1;
             pointer-events: none;
         }
 
-        .orbit-system {
-            position: relative;
-            width: 380px; height: 380px;
-            border-radius: 50%;
-            animation: system-spin 35s linear infinite;
-        }
-
-        @keyframes system-spin {
-            from { transform: rotate(0deg); }
-            to { transform: rotate(360deg); }
-        }
-
-        .node {
+        /* Órbitas flotantes con palabras clave */
+        .orbit-node {
             position: absolute;
-            width: 58px; height: 58px;
-            display: flex; flex-direction: column; justify-content: center; align-items: center;
+            padding: 10px 22px;
+            background: rgba(20, 10, 35, 0.65);
+            border: 1px solid rgba(255, 255, 255, 0.25);
+            border-radius: 30px;
+            font-size: 0.85em;
+            font-weight: 600;
+            letter-spacing: 0.8px;
             cursor: pointer;
-            pointer-events: auto;
-            transition: transform 0.3s cubic-bezier(0.175, 0.885, 0.32, 1.275);
-            background: linear-gradient(135deg, rgba(30, 10, 60, 0.95), rgba(10, 3, 22, 0.98));
-            border-radius: 50%;
-            border: 2px solid rgba(255, 105, 180, 0.7);
             backdrop-filter: blur(8px);
-            box-shadow: 0 0 25px rgba(236, 72, 153, 0.5);
+            transition: all 0.3s cubic-bezier(0.175, 0.885, 0.32, 1.275);
+            box-shadow: 0 8px 25px rgba(0, 0, 0, 0.5);
+            white-space: nowrap;
+            z-index: 5;
         }
 
-        .node:hover {
-            transform: scale(1.4);
-            border-color: #fff;
-            box-shadow: 0 0 40px #ff69b4;
+        .orbit-node:hover {
+            background: rgba(219, 39, 119, 0.35);
+            border-color: #ff69b4;
+            transform: scale(1.15) translateY(-4px);
+            box-shadow: 0 0 25px rgba(255, 105, 180, 0.7);
         }
 
-        /* Posicionamiento de los 4 nodos en el círculo */
-        .node-1 { top: -29px; left: calc(50% - 29px); }
-        .node-2 { bottom: -29px; left: calc(50% - 29px); }
-        .node-3 { left: -29px; top: calc(50% - 29px); }
-        .node-4 { right: -29px; top: calc(50% - 29px); }
+        /* Posicionamiento dinámico simulando el diseño de la referencia */
+        .node-1 { top: 15%; left: 8%; }
+        .node-2 { top: 8%; right: 15%; }
+        .node-3 { top: 42%; left: 2%; }
+        .node-4 { top: 48%; right: 5%; }
+        .node-5 { bottom: 18%; left: 18%; }
+        .node-6 { bottom: 15%; right: 22%; }
+        .node-7 { top: 30%; left: 32%; background: rgba(219, 39, 119, 0.2); border-color: #ff69b4; }
 
-        .icon { font-size: 22px; filter: drop-shadow(0 0 10px currentColor); }
-        
-        .node-label { 
-            font-family: 'Cinzel Decorative', cursive; 
-            font-size: 0.48em; letter-spacing: 0.5px; margin-top: 2px; 
-            text-shadow: 2px 2px 4px #000; white-space: nowrap; font-weight: bold;
-            color: #ffffff;
-        }
-
-        /* Contrarrotación para que los iconos siempre estén derechos */
-        .node { animation: counter-spin 35s linear infinite; }
-        @keyframes counter-spin {
-            from { transform: rotate(0deg); }
-            to { transform: rotate(-360deg); }
-        }
-
-        /* MODALES DE LUJO */
+        /* --------------------------------------------------
+           MODALES / VENTANAS EMERGENTES DE CADA MUNDO
+           -------------------------------------------------- */
         .modal-overlay {
             position: fixed; top: 0; left: 0; width: 100vw; height: 100vh;
-            background: rgba(2, 0, 8, 0.92); backdrop-filter: blur(14px);
+            background: rgba(2, 0, 8, 0.88); backdrop-filter: blur(12px);
             display: flex; justify-content: center; align-items: center;
-            opacity: 0; pointer-events: none; transition: opacity 0.4s ease; z-index: 100;
+            opacity: 0; pointer-events: none; transition: opacity 0.35s ease; z-index: 100;
         }
         .modal-overlay.active { opacity: 1; pointer-events: auto; }
 
         .modal-card {
-            background: linear-gradient(145deg, rgba(32, 12, 60, 0.98), rgba(10, 3, 22, 0.99));
-            border: 1px solid rgba(255, 105, 180, 0.45);
-            border-radius: 24px; padding: 35px 28px;
-            width: 82%; max-width: 360px; text-align: center;
-            transform: scale(0.75) translateY(50px);
-            transition: all 0.45s cubic-bezier(0.175, 0.885, 0.32, 1.275);
-            box-shadow: 0 35px 80px rgba(0, 0, 0, 0.98), 0 0 40px rgba(219, 39, 119, 0.35);
+            background: linear-gradient(145deg, rgba(30, 12, 55, 0.95), rgba(10, 4, 20, 0.98));
+            border: 1px solid rgba(255, 105, 180, 0.4);
+            border-radius: 22px;
+            padding: 35px 30px;
+            width: 85%; max-width: 380px;
+            text-align: center;
+            transform: scale(0.8) translateY(30px);
+            transition: all 0.4s cubic-bezier(0.175, 0.885, 0.32, 1.275);
+            box-shadow: 0 30px 70px rgba(0, 0, 0, 0.9), 0 0 30px rgba(147, 51, 234, 0.3);
         }
+
         .modal-overlay.active .modal-card { transform: scale(1) translateY(0); }
 
-        .modal-card h2 { 
-            font-family: 'Cinzel Decorative', cursive; font-size: 1.65em; margin: 0 0 14px 0; 
-            letter-spacing: 1px; text-shadow: 0 0 20px currentColor; color: #ff69b4;
+        .modal-card h2 {
+            font-size: 1.5em; margin: 0 0 12px 0; color: #ff69b4;
+            letter-spacing: 0.5px;
         }
-        .modal-card p { font-size: 0.96em; line-height: 1.6; color: #f1f5f9; margin-bottom: 24px; font-weight: 300; }
-        
+
+        .modal-card p {
+            font-size: 0.95em; line-height: 1.6; color: #e2e8f0; margin-bottom: 24px; font-weight: 300;
+        }
+
         .close-btn {
             background: linear-gradient(135deg, #db2777, #9333ea);
-            color: white; border: none; padding: 12px 28px; border-radius: 30px;
-            font-weight: 600; cursor: pointer; transition: transform 0.2s;
-            box-shadow: 0 6px 20px rgba(219, 39, 119, 0.6); font-family: 'Montserrat', sans-serif;
-        }
-        .close-btn:hover { transform: scale(1.06); }
-
-        /* PANTALLA DE BLOQUEO (CONTADOR HASTA EL 27 DE SEPTIEMBRE) */
-        .lock-screen {
-            position: fixed; top: 0; left: 0; width: 100vw; height: 100vh;
-            background: radial-gradient(circle, #1f0538 0%, #020108 100%);
-            display: flex; flex-direction: column; justify-content: center; align-items: center;
-            z-index: 200; text-align: center; padding: 20px; box-sizing: border-box;
-            transition: opacity 1s ease, transform 1s ease;
-        }
-        .lock-screen.unlocked { opacity: 0; transform: scale(1.1); pointer-events: none; }
-
-        .lock-title {
-            font-family: 'Cinzel Decorative', cursive; font-size: 1.9em; color: #ff69b4; margin-bottom: 12px;
-            text-shadow: 0 0 30px rgba(255, 105, 180, 0.7);
-        }
-        .lock-subtitle { font-size: 1.02em; color: #cbd5e1; margin-bottom: 28px; font-weight: 300; max-width: 330px; line-height: 1.5; }
-        .countdown-box { display: flex; gap: 10px; margin-bottom: 28px; }
-        .time-card {
-            background: rgba(255, 255, 255, 0.05); border: 1px solid rgba(255, 105, 180, 0.3);
-            padding: 14px 10px; border-radius: 14px; min-width: 58px; backdrop-filter: blur(8px);
-        }
-        .time-number { font-size: 1.7em; font-weight: 700; color: white; }
-        .time-label { font-size: 0.68em; color: #cbd5e1; text-transform: uppercase; letter-spacing: 1.2px; margin-top: 5px; }
-
-        .override-btn {
-            background: transparent; border: 1px solid rgba(255,105,180,0.45); color: rgba(255,255,255,0.9);
-            padding: 9px 18px; border-radius: 22px; font-size: 0.78em; cursor: pointer; transition: all 0.3s;
+            color: white; border: none; padding: 11px 26px;
+            border-radius: 25px; font-weight: 600; cursor: pointer;
+            transition: transform 0.2s, box-shadow 0.2s;
+            box-shadow: 0 5px 20px rgba(219, 39, 119, 0.5);
             font-family: 'Montserrat', sans-serif;
         }
-        .override-btn:hover { background: rgba(255, 105, 180, 0.2); color: white; border-color: #ff69b4; }
+        .close-btn:hover { transform: scale(1.05); box-shadow: 0 7px 22px rgba(219, 39, 119, 0.8); }
+
     </style>
 </head>
 <body>
 
-<div id="canvas-container"></div>
+<div class="universe-bg">
+    <div class="stars"></div>
+</div>
 
-<div class="giant-particle-heart">💖</div>
+<div class="header-title">
+    <h1>Feliz Cumpleaños</h1>
+    <p>Se abrió una grieta entre universos, solo para ti. Toca cualquier palabra flotando alrededor del vórtice para cruzar a ese mundo.</p>
+</div>
 
-<div class="nodes-layer">
+<div class="galaxy-scene">
     <div class="orbit-system">
-        <div class="node node-1" onclick="abrirModal('mod-spidey')">
-            <div class="icon">🕷️</div>
-            <div class="node-label">Amistad</div>
-        </div>
-        <div class="node node-2" onclick="abrirModal('mod-pumas')">
-            <div class="icon">🐾</div>
-            <div class="node-label">Garra</div>
-        </div>
-        <div class="node node-3" onclick="abrirModal('mod-harry')">
-            <div class="icon">🍉</div>
-            <div class="node-label">Estilo</div>
-        </div>
-        <div class="node node-4" onclick="abrirModal('mod-psico')">
-            <div class="icon">🧠</div>
-            <div class="node-label">Mente</div>
-        </div>
+        <div class="vortex-center"></div>
+
+        <div class="orbit-node node-1" onclick="abrirModal('mod-magia')">✨ ERES MAGIA</div>
+        <div class="orbit-node node-2" onclick="abrirModal('mod-multiverso')">🌌 MULTIVERSO</div>
+        <div class="orbit-node node-3" onclick="abrirModal('mod-amistad')">💖 AMISTAD INFINITA</div>
+        <div class="orbit-node node-4" onclick="abrirModal('mod-dia')">🌟 ES TU DÍA</div>
+        <div class="orbit-node node-5" onclick="abrirModal('mod-manada')">🐾 LA MANADA</div>
+        <div class="orbit-node node-6" onclick="abrirModal('mod-anomalia')">🔮 LA ANOMALÍA</div>
+        <div class="orbit-node node-7" onclick="abrirModal('mod-escenario')">🎭 EL ESCENARIO</div>
     </div>
 </div>
 
-<div class="lock-screen" id="lockScreen">
-    <div class="lock-title">Multiverso Bloqueado</div>
-    <div class="lock-subtitle">Este portal dimensional se abrirá automáticamente en el cumpleaños de mi gran amiga:</div>
-    
-    <div class="countdown-box">
-        <div class="time-card"><div class="time-number" id="days">00</div><div class="time-label">Días</div></div>
-        <div class="time-card"><div class="time-number" id="hours">00</div><div class="time-label">Horas</div></div>
-        <div class="time-card"><div class="time-number" id="minutes">00</div><div class="time-label">Min</div></div>
-        <div class="time-card"><div class="time-number" id="seconds">00</div><div class="time-label">Seg</div></div>
-    </div>
-
-    <button class="override-btn" onclick="desbloquearManual()">✨ Forzar acceso anticipado ✨</button>
-</div>
-
-<div class="modal-overlay" id="overlay-mod-spidey">
+<div class="modal-overlay" id="overlay-mod-magia">
     <div class="modal-card">
-        <h2>Spider-Amistad</h2>
-        <p>En cualquier universo paralelo, eres una amiga extraordinaria. Gracias por las risas, el apoyo constante y por cruzar caminos en esta realidad.</p>
-        <button class="close-btn" onclick="cerrarModal('mod-spidey')">Cerrar brecha</button>
+        <h2>Magia Pura</h2>
+        <p>Tienes una luz y una energía increíble que ilumina a todos los que te rodean. Nunca dejes de brillar con esa intensidad.</p>
+        <button class="close-btn" onclick="cerrarModal('mod-magia')">Volver al vórtice</button>
     </div>
 </div>
 
-<div class="modal-overlay" id="overlay-mod-pumas">
+<div class="modal-overlay" id="overlay-mod-multiverso">
     <div class="modal-card">
-        <h2>Espíritu Universitario</h2>
-        <p>Sangre azul, piel dorada y una actitud imparable. Que nunca te falte esa garra y pasión para conquistar cada meta que te propongas.</p>
-        <button class="close-btn" onclick="cerrarModal('mod-pumas')">Cerrar brecha</button>
+        <h2>Multiverso Compartido</h2>
+        <p>No importa en qué realidad estemos, nuestras locuras y momentos compartidos siempre trascienden cualquier dimensión.</p>
+        <button class="close-btn" onclick="cerrarModal('mod-multiverso')">Volver al vórtice</button>
     </div>
 </div>
 
-<div class="modal-overlay" id="overlay-mod-harry">
+<div class="modal-overlay" id="overlay-mod-amistad">
     <div class="modal-card">
-        <h2>Fine Line & Styles</h2>
-        <p>"Treat People With Kindness". Sigue iluminando los días con esa vibra tan genuina y única que posees. ¡Disfruta al máximo tu día!</p>
-        <button class="close-btn" onclick="cerrarModal('mod-harry')">Cerrar brecha</button>
+        <h2>Amistad Infinita</h2>
+        <p>Gracias por estar siempre, por las risas ilimitadas y por ser una de las personas más auténticas y valiosas de mi vida.</p>
+        <button class="close-btn" onclick="cerrarModal('mod-amistad')">Volver al vórtice</button>
     </div>
 </div>
 
-<div class="modal-overlay" id="overlay-mod-psico">
+<div class="modal-overlay" id="overlay-mod-dia">
     <div class="modal-card">
-        <h2>Raíces y Alas</h2>
-        <p>Tu sensibilidad y vocación para entender el mundo y guiar a los demás es inspiradora. Tienes un futuro brillante por delante.</p>
-        <button class="close-btn" onclick="cerrarModal('mod-psico')">Cerrar brecha</button>
+        <h2>¡Es Tu Día!</h2>
+        <p>Disfruta al máximo cada segundo de este cumpleaños. Te mereces absolutamente lo mejor hoy y siempre.</p>
+        <button class="close-btn" onclick="cerrarModal('mod-dia')">Volver al vórtice</button>
+    </div>
+</div>
+
+<div class="modal-overlay" id="overlay-mod-manada">
+    <div class="modal-card">
+        <h2>La Manada</h2>
+        <p>Actitud imparable, lealtad y garra para superar cualquier obstáculo que se ponga enfrente. ¡Orgullo total!</p>
+        <button class="close-btn" onclick="cerrarModal('mod-manada')">Volver al vórtice</button>
+    </div>
+</div>
+
+<div class="modal-overlay" id="overlay-mod-anomalia">
+    <div class="modal-card">
+        <h2>La Anomalía</h2>
+        <p>Existen personas únicas que rompen con lo ordinario... tú eres esa anomalía perfecta que hace que todo sea más divertido.</p>
+        <button class="close-btn" onclick="cerrarModal('mod-anomalia')">Volver al vórtice</button>
+    </div>
+</div>
+
+<div class="modal-overlay" id="overlay-mod-escenario">
+    <div class="modal-card">
+        <h2>El Escenario</h2>
+        <p>La vida es una gran tarima y tú sabes cómo protagonizarla con estilo, elegancia y una vibra inigualable.</p>
+        <button class="close-btn" onclick="cerrarModal('mod-escenario')">Volver al vórtice</button>
     </div>
 </div>
 
 <script>
-    // --- MOTOR DE GALAXIA 3D CON THREE.JS (PARTÍCULAS REALES EN ESPIRAL) ---
-    const scene = new THREE.Scene();
-    const camera = new THREE.PerspectiveCamera(75, window.innerWidth / window.innerHeight, 0.1, 1000);
-    const renderer = new THREE.WebGLRenderer({ antialias: true, alpha: true });
-    renderer.setSize(window.innerWidth, window.innerHeight);
-    renderer.setPixelRatio(Math.min(window.devicePixelRatio, 2));
-    document.getElementById('canvas-container').appendChild(renderer.domElement);
-
-    // Parámetros de la galaxia espiral
-    const parameters = {
-        count: 15000,
-        size: 0.012,
-        radius: 5,
-        branches: 4,
-        spin: 1,
-        randomness: 0.5,
-        power: 3,
-        insideColor: '#ff69b4',
-        outsideColor: '#7c3aed'
-    };
-
-    let geometry = null;
-    let material = null;
-    let points = null;
-
-    function generateGalaxy() {
-        if (points) {
-            geometry.dispose();
-            material.dispose();
-            scene.remove(points);
-        }
-
-        geometry = new THREE.BufferGeometry();
-        const positions = new Float32Array(parameters.count * 3);
-        const colors = new Float32Array(parameters.count * 3);
-
-        const colorInside = new THREE.Color(parameters.insideColor);
-        const colorOutside = new THREE.Color(parameters.outsideColor);
-
-        for (let i = 0; i < parameters.count; i++) {
-            // Posición
-            const i3 = i * 3;
-            const radius = Math.random() * parameters.radius;
-            const spinAngle = radius * parameters.spin;
-            const branchAngle = ((i % parameters.branches) / parameters.branches) * Math.PI * 2;
-
-            const randomX = Math.pow(Math.random(), parameters.power) * (Math.random() < 0.5 ? 1 : -1) * parameters.randomness * radius;
-            const randomY = Math.pow(Math.random(), parameters.power) * (Math.random() < 0.5 ? 1 : -1) * parameters.randomness * radius;
-            const randomZ = Math.pow(Math.random(), parameters.power) * (Math.random() < 0.5 ? 1 : -1) * parameters.randomness * radius;
-
-            positions[i3] = Math.cos(branchAngle + spinAngle) * radius + randomX;
-            positions[i3 + 1] = randomY;
-            positions[i3 + 2] = Math.sin(branchAngle + spinAngle) * radius + randomZ;
-
-            // Color degradado de adentro hacia afuera (Rosa / Morado / Azul cósmico)
-            const mixedColor = colorInside.clone();
-            mixedColor.lerp(colorOutside, radius / parameters.radius);
-
-            colors[i3] = mixedColor.r;
-            colors[i3 + 1] = mixedColor.g;
-            colors[i3 + 2] = mixedColor.b;
-        }
-
-        geometry.setAttribute('position', new THREE.BufferAttribute(positions, 3));
-        geometry.setAttribute('color', new THREE.BufferAttribute(colors, 3));
-
-        material = new THREE.PointsMaterial({
-            size: parameters.size,
-            sizeAttenuation: true,
-            depthWrite: false,
-            blending: THREE.AdditiveBlending,
-            vertexColors: true
-        });
-
-        points = new THREE.Points(geometry, material);
-        // Inclinación característica del multiverso del video
-        points.rotation.x = 0.8;
-        scene.add(points);
+    // --- LÓGICA DE APERTURA Y CIERRE DE MODALES ---
+    function abrirModal(id) {
+        document.getElementById('overlay-' + id).classList.add('active');
     }
 
-    generateGalaxy();
-    camera.position.z = 4.5;
-
-    // Animación de rotación fluida del universo de partículas
-    function animate() {
-        requestAnimationFrame(animate);
-        if (points) {
-            points.rotation.y += 0.0015;
-        }
-        renderer.render(scene, camera);
+    function cerrarModal(id) {
+        document.getElementById('overlay-' + id).classList.remove('active');
     }
-    animate();
-
-    window.addEventListener('resize', () => {
-        camera.aspect = window.innerWidth / window.innerHeight;
-        camera.updateProjectionMatrix();
-        renderer.setSize(window.innerWidth, window.innerHeight);
-    });
-
-    // --- CONTADOR REGRESIVO ---
-    const anioActual = new Date().getFullYear();
-    const fechaCumple = new Date(`September 27, ${anioActual} 00:00:00`).getTime();
-
-    function actualizarContador() {
-        const ahora = new Date().getTime();
-        const diferencia = fechaCumple - ahora;
-        if (diferencia <= 0) {
-            document.getElementById('lockScreen').classList.add('unlocked');
-            return;
-        }
-        const dias = Math.floor(diferencia / (1000 * 60 * 60 * 24));
-        const horas = Math.floor((diferencia % (1000 * 60 * 60 * 24)) / (1000 * 60 * 60));
-        const minutos = Math.floor((diferencia % (1000 * 60 * 60)) / (1000 * 60));
-        const segundos = Math.floor((diferencia % (1000 * 60)) / 1000);
-
-        document.getElementById('days').innerText = String(dias).padStart(2, '0');
-        document.getElementById('hours').innerText = String(horas).padStart(2, '0');
-        document.getElementById('minutes').innerText = String(minutos).padStart(2, '0');
-        document.getElementById('seconds').innerText = String(segundos).padStart(2, '0');
-    }
-    setInterval(actualizarContador, 1000);
-    actualizarContador();
-
-    function desbloquearManual() {
-        document.getElementById('lockScreen').classList.add('unlocked');
-    }
-
-    // --- MODALES ---
-    function abrirModal(id) { document.getElementById('overlay-' + id).classList.add('active'); }
-    function cerrarModal(id) { document.getElementById('overlay-' + id).classList.remove('active'); }
 </script>
 
 </body>

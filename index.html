@@ -3,7 +3,7 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>El Multiverso de Regalos</title>
+    <title>Multiverso Interactivo</title>
     <style>
         @import url('https://fonts.googleapis.com/css2?family=Bangers&family=Poppins:wght@400;600;700&display=swap');
 
@@ -25,12 +25,12 @@
             max-width: 95vw;
             border-radius: 15px;
             box-shadow: 0 15px 40px rgba(0,0,0,0.6);
-            overflow: hidden; /* Mantiene las pantallas contenidas */
+            overflow: hidden;
             background-color: #111;
         }
 
         /* -------------------------------------
-           PANTALLAS INTERNAS (Ocultas por defecto)
+           PANTALLAS INTERNAS
            ------------------------------------- */
         .screen {
             position: absolute;
@@ -52,7 +52,6 @@
             pointer-events: auto;
         }
 
-        /* Títulos estilo cómic */
         h1 {
             font-family: 'Bangers', cursive; 
             font-size: 3.5em;
@@ -71,51 +70,89 @@
             color: #e23636;
             text-shadow: 2px 2px 0 #fff, -2px -2px 0 #fff, 2px -2px 0 #fff, -2px 2px 0 #fff;
         }
-        
-        .flores {
-            font-size: 30px;
-            margin: 15px 0;
-            text-shadow: 0 0 15px rgba(155, 89, 182, 0.8);
-            letter-spacing: 10px;
+
+        /* FLORES CREADAS CON CSS (Sin Emojis) */
+        .flower-container {
+            display: flex;
+            justify-content: center;
+            gap: 25px;
+            margin: 20px 0;
         }
 
-        /* Botones de navegación */
+        .css-flower {
+            position: relative;
+            width: 40px;
+            height: 40px;
+            animation: spin 8s linear infinite;
+        }
+
+        .css-flower.reverse {
+            animation: spin-reverse 10s linear infinite;
+        }
+
+        .petal {
+            position: absolute;
+            width: 20px;
+            height: 20px;
+            background: #9b59b6; /* Morado */
+            border-radius: 50% 50% 0 50%;
+            box-shadow: 0 0 10px rgba(155, 89, 182, 0.6);
+        }
+
+        .css-flower.pink .petal {
+            background: #fd79a8; /* Rosa */
+            box-shadow: 0 0 10px rgba(253, 121, 168, 0.6);
+        }
+
+        .petal:nth-child(1) { top: 0; left: 10px; transform: rotate(45deg); }
+        .petal:nth-child(2) { top: 10px; right: 0; transform: rotate(135deg); }
+        .petal:nth-child(3) { bottom: 0; left: 10px; transform: rotate(225deg); }
+        .petal:nth-child(4) { top: 10px; left: 0; transform: rotate(315deg); }
+
+        .flower-center {
+            position: absolute;
+            top: 12px; left: 12px;
+            width: 16px; height: 16px;
+            background: #fff;
+            border-radius: 50%;
+            z-index: 2;
+            box-shadow: inset 0 0 5px rgba(0,0,0,0.3);
+        }
+
+        @keyframes spin { 100% { transform: rotate(360deg); } }
+        @keyframes spin-reverse { 100% { transform: rotate(-360deg); } }
+
+        /* Botones de navegación (Misteriosos) */
         .btn-nav {
             padding: 12px 25px;
-            margin: 10px;
+            margin: 8px;
             border: none;
             border-radius: 30px;
             font-size: 1.1em;
             font-weight: 700;
             cursor: pointer;
             transition: transform 0.2s, box-shadow 0.2s;
-            width: 80%;
+            width: 85%;
             font-family: 'Poppins', sans-serif;
+            position: relative;
+            overflow: hidden;
         }
         
         .btn-nav:hover { transform: scale(1.05); }
 
-        .btn-pumas {
-            background-color: #D4AF37;
-            color: #0A1C40;
-            box-shadow: 0 5px 15px rgba(212, 175, 55, 0.4);
-        }
-        
-        .btn-harry {
-            background-color: #fd79a8;
-            color: #fff;
-            box-shadow: 0 5px 15px rgba(253, 121, 168, 0.4);
-        }
+        .btn-portal-1 { background-color: #D4AF37; color: #0A1C40; }
+        .btn-portal-2 { background-color: #fd79a8; color: #fff; }
+        .btn-portal-3 { background-color: #27ae60; color: #fff; } /* Verde/Menta para Psico */
 
         .btn-volver {
             background-color: rgba(255,255,255,0.2);
             color: white;
             border: 2px solid white;
-            margin-top: auto; /* Empuja el botón al fondo */
+            margin-top: auto;
             width: auto;
         }
 
-        /* 2. PANTALLA PUMAS */
+        /* 2. PANTALLA MISTERIO 1 (Pumas) */
         #pumas-screen {
             background: linear-gradient(135deg, #0A1C40 0%, #152b5e 100%);
             border: 6px solid #D4AF37;
@@ -123,17 +160,25 @@
         }
         #pumas-screen h1 { color: #D4AF37; text-shadow: 2px 2px 0 #0A1C40; }
 
-        /* 3. PANTALLA HARRY STYLES */
+        /* 3. PANTALLA MISTERIO 2 (Harry Styles) */
         #harry-screen {
             background: linear-gradient(135deg, #9b59b6 0%, #fd79a8 100%);
             border: 6px solid #fff;
             color: white;
         }
         #harry-screen h1 { color: #fff; text-shadow: 2px 2px 0 #9b59b6; }
-        .hs-text { font-style: italic; font-size: 1.2em; margin: 20px 0; }
+
+        /* 4. PANTALLA MISTERIO 3 (Psicología Infantil) */
+        #psico-screen {
+            background: linear-gradient(135deg, #8e44ad 0%, #3498db 100%);
+            border: 6px solid #f1c40f;
+            color: white;
+        }
+        #psico-screen h1 { color: #f1c40f; text-shadow: 2px 2px 0 #8e44ad; }
+        .psico-text { font-size: 1.1em; line-height: 1.6; margin: 20px 0; }
 
         /* -------------------------------------
-           ENVOLTURA PRINCIPAL (La que cae)
+           ENVOLTURA PRINCIPAL
            ------------------------------------- */
         .wrapper {
             position: absolute;
@@ -149,46 +194,23 @@
                 linear-gradient(90deg, rgba(0, 0, 0, 0.2) 2px, transparent 2px);
             background-size: 30px 30px;
             transition: transform 1.2s cubic-bezier(0.55, 0.085, 0.68, 0.53), opacity 1s;
-            z-index: 50; /* Siempre al frente hasta que caiga */
+            z-index: 50;
         }
 
-        /* Listones en color Azul Clásico */
+        /* Listones Azules */
         .wrapper::before, .wrapper::after {
             content: '';
             position: absolute;
             background-color: #003bbc; 
         }
 
-        .wrapper::before {
-            width: 50px;
-            height: 100%;
-            left: 50%;
-            transform: translateX(-50%);
-            box-shadow: 0 0 15px rgba(0,0,0,0.5);
-        }
-
-        .wrapper::after {
-            height: 50px;
-            width: 100%;
-            top: 50%;
-            transform: translateY(-50%);
-            box-shadow: 0 0 15px rgba(0,0,0,0.5);
-        }
-
-        .bow-center {
-            position: absolute;
-            z-index: 51;
-            font-size: 80px;
-            top: 50%;
-            left: 50%;
-            transform: translate(-50%, -50%);
-            filter: drop-shadow(0 5px 10px rgba(0,0,0,0.6));
-        }
+        .wrapper::before { width: 50px; height: 100%; left: 50%; transform: translateX(-50%); }
+        .wrapper::after { height: 50px; width: 100%; top: 50%; transform: translateY(-50%); }
 
         .click-text {
             position: absolute;
             bottom: 35px;
-            background: #9b59b6; /* Detalle morado en el botón exterior */
+            background: #9b59b6; /* Detalle morado */
             padding: 10px 25px;
             border-radius: 25px;
             color: white;
@@ -206,72 +228,85 @@
             50% { transform: scale(1.08); }
         }
 
-        /* Animación de caída */
         .wrapper.fall-down {
             transform: translateY(150vh) rotate(15deg);
             opacity: 0;
             pointer-events: none;
         }
-
     </style>
 </head>
 <body>
 
 <div class="app-container">
     
-    <!-- 1. BASE SPIDER-MAN (Centro de Control) -->
+    <!-- 1. BASE SPIDER-MAN -->
     <div id="spidey-hub" class="screen active">
-        <h1>¡Multiverso!</h1>
-        <div class="flores">🌸🌺🕷️🌺🌸</div>
-        <p>Tu sentido arácnido te guiará. Elige una dimensión para explorar tu regalo:</p>
+        <h1>Elige tu Destino</h1>
         
-        <button class="btn-nav btn-pumas" onclick="cambiarPantalla('pumas-screen')">⚽ Dimensión Pumas</button>
-        <button class="btn-nav btn-harry" onclick="cambiarPantalla('harry-screen')">🍉 Dimensión H. Styles</button>
+        <!-- Flores generadas con código CSS -->
+        <div class="flower-container">
+            <div class="css-flower">
+                <div class="petal"></div><div class="petal"></div><div class="petal"></div><div class="petal"></div><div class="flower-center"></div>
+            </div>
+            <div class="css-flower pink reverse">
+                <div class="petal"></div><div class="petal"></div><div class="petal"></div><div class="petal"></div><div class="flower-center"></div>
+            </div>
+            <div class="css-flower">
+                <div class="petal"></div><div class="petal"></div><div class="petal"></div><div class="petal"></div><div class="flower-center"></div>
+            </div>
+        </div>
+
+        <p>Tu instinto te ha traído hasta aquí. ¿Qué portal deseas cruzar hoy?</p>
+        
+        <!-- Botones sin nombres explícitos -->
+        <button class="btn-nav btn-portal-1" onclick="cambiarPantalla('pumas-screen')">Portal del Rugido</button>
+        <button class="btn-nav btn-portal-2" onclick="cambiarPantalla('harry-screen')">Portal de la Melodía</button>
+        <button class="btn-nav btn-portal-3" onclick="cambiarPantalla('psico-screen')">Portal de la Mente</button>
     </div>
 
-    <!-- 2. PANTALLA PUMAS -->
+    <!-- 2. PANTALLA PUMAS (Misteriosa) -->
     <div id="pumas-screen" class="screen">
-        <h1>¡GOYA!</h1>
-        <p style="font-size: 40px; margin: 10px 0;">🐾 ⚽ 🏟️</p>
-        <p>Desde el Olímpico Universitario hasta tu pantalla.</p>
-        <p><strong>Vale por:</strong> Un partido increíble o tu jersey favorito.</p>
-        <button class="btn-nav btn-volver" onclick="cambiarPantalla('spidey-hub')">🕸️ Volver a la Base</button>
+        <h1>Instinto Universitario</h1>
+        <p style="font-size: 40px; margin: 10px 0;">🐾 ⚽</p>
+        <p>El eco de la piedra volcánica resuena aquí. Sangre azul, piel dorada y un legado de garra que no se apaga.</p>
+        <button class="btn-nav btn-volver" onclick="cambiarPantalla('spidey-hub')">Regresar</button>
     </div>
 
-    <!-- 3. PANTALLA HARRY STYLES -->
+    <!-- 3. PANTALLA HARRY STYLES (Misteriosa) -->
     <div id="harry-screen" class="screen">
-        <h1>Watermelon Sugar</h1>
-        <p class="hs-text">"Treat People With Kindness"<br>🌸 🦋 🍒</p>
-        <p>Bienvenido al mundo de TPWK.</p>
-        <p><strong>Vale por:</strong> Tu merch favorita o noche de música.</p>
-        <button class="btn-nav btn-volver" onclick="cambiarPantalla('spidey-hub')">🕸️ Volver a la Base</button>
+        <h1>Ecos de Sandía</h1>
+        <p style="font-size: 40px; margin: 10px 0;">🦋 🍒</p>
+        <p>"Trata a las personas con amabilidad." Un espacio donde las luces de neón abrazan y la música nunca se detiene.</p>
+        <button class="btn-nav btn-volver" onclick="cambiarPantalla('spidey-hub')">Regresar</button>
     </div>
 
-    <!-- ENVOLTURA QUE CAE (Cubre todo inicialmente) -->
+    <!-- 4. PANTALLA PSICOLOGÍA INFANTIL -->
+    <div id="psico-screen" class="screen">
+        <h1>Raíces y Alas</h1>
+        <p style="font-size: 40px; margin: 10px 0;">🧩 🌱</p>
+        <p class="psico-text">Donde las mentes pequeñas construyen universos gigantes. Entender los pasos de hoy es guiar el vuelo del mañana.</p>
+        <button class="btn-nav btn-volver" onclick="cambiarPantalla('spidey-hub')">Regresar</button>
+    </div>
+
+    <!-- ENVOLTURA -->
     <div class="wrapper" id="giftWrapper" onclick="abrirRegalo()">
-        <!-- Usamos un moño azul como texto para que coincida con el listón -->
-        <div class="bow-center">🎁</div> 
-        <div class="click-text">¡Ábrelo!</div>
+        <div class="click-text">Desentrañar</div>
     </div>
 
 </div>
 
 <script>
-    // 1. Función para tirar la envoltura principal
     function abrirRegalo() {
         const wrapper = document.getElementById('giftWrapper');
         wrapper.classList.add('fall-down');
     }
 
-    // 2. Función para navegar entre los distintos apartados (pantallas)
     function cambiarPantalla(idPantallaDestino) {
-        // Ocultar todas las pantallas quitando la clase 'active'
         const pantallas = document.querySelectorAll('.screen');
         pantallas.forEach(pantalla => {
             pantalla.classList.remove('active');
         });
 
-        // Mostrar solo la pantalla solicitada
         const pantallaDestino = document.getElementById(idPantallaDestino);
         pantallaDestino.classList.add('active');
     }

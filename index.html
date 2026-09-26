@@ -3,9 +3,8 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Multiverso de Regalos</title>
+    <title>El Multiverso de Regalos</title>
     <style>
-        /* Tipografía de cómic para Spiderman y tipografía redondeada para el resto */
         @import url('https://fonts.googleapis.com/css2?family=Bangers&family=Poppins:wght@400;600;700&display=swap');
 
         body {
@@ -14,100 +13,132 @@
             justify-content: center;
             align-items: center;
             min-height: 100vh;
-            background-color: #111;
+            background-color: #0d1b2a;
             font-family: 'Poppins', sans-serif;
             overflow: hidden;
         }
 
-        /* -------------------------------------
-           CONTENEDOR (Más grande)
-           ------------------------------------- */
-        .gift-container {
+        .app-container {
             position: relative;
             width: 400px;
-            height: 550px;
-            max-width: 90vw; /* Se ajusta si la pantalla del celular es muy pequeña */
+            height: 600px;
+            max-width: 95vw;
+            border-radius: 15px;
+            box-shadow: 0 15px 40px rgba(0,0,0,0.6);
+            overflow: hidden; /* Mantiene las pantallas contenidas */
+            background-color: #111;
         }
 
         /* -------------------------------------
-           SORPRESA INTERIOR (Pumas + Harry + Spidey)
+           PANTALLAS INTERNAS (Ocultas por defecto)
            ------------------------------------- */
-        .content {
+        .screen {
             position: absolute;
             top: 0; left: 0; width: 100%; height: 100%;
-            /* Degradado de Azul Profundo (Pumas), Oro y Morado */
-            background: linear-gradient(135deg, #0A1C40 0%, #D4AF37 55%, #6B3FA0 100%);
-            border-radius: 15px;
-            border: 6px solid #e23636; /* Borde rojo Spider-Man */
-            box-shadow: 0 10px 30px rgba(0,0,0,0.5);
             display: flex;
             flex-direction: column;
-            justify-content: space-evenly;
+            justify-content: center;
             align-items: center;
             text-align: center;
             padding: 30px;
             box-sizing: border-box;
-            color: white;
+            opacity: 0;
+            pointer-events: none;
+            transition: opacity 0.5s ease-in-out;
         }
 
-        .content h1 {
+        .screen.active {
+            opacity: 1;
+            pointer-events: auto;
+        }
+
+        /* Títulos estilo cómic */
+        h1 {
             font-family: 'Bangers', cursive; 
             font-size: 3.5em;
-            color: #e23636; 
-            text-shadow: 2px 2px 0 #fff, -2px -2px 0 #fff, 2px -2px 0 #fff, -2px 2px 0 #fff;
             margin: 0;
             line-height: 1;
             letter-spacing: 2px;
         }
 
-        .pumas-text {
-            font-weight: 700;
-            font-size: 1.4em;
-            color: #0A1C40; /* Azul Pumas */
-            background-color: #D4AF37; /* Fondo oro */
-            padding: 5px 15px;
-            border-radius: 10px;
-            margin: 10px 0;
-            text-transform: uppercase;
-            box-shadow: 2px 2px 5px rgba(0,0,0,0.3);
+        /* 1. BASE SPIDER-MAN (Centro) */
+        #spidey-hub {
+            background: linear-gradient(135deg, #003bbc 0%, #0a1024 100%);
+            border: 6px solid #e23636;
+            color: white;
+        }
+        #spidey-hub h1 {
+            color: #e23636;
+            text-shadow: 2px 2px 0 #fff, -2px -2px 0 #fff, 2px -2px 0 #fff, -2px 2px 0 #fff;
+        }
+        
+        .flores {
+            font-size: 30px;
+            margin: 15px 0;
+            text-shadow: 0 0 15px rgba(155, 89, 182, 0.8);
+            letter-spacing: 10px;
         }
 
-        .spidey-text {
+        /* Botones de navegación */
+        .btn-nav {
+            padding: 12px 25px;
+            margin: 10px;
+            border: none;
+            border-radius: 30px;
             font-size: 1.1em;
-            font-weight: 600;
+            font-weight: 700;
+            cursor: pointer;
+            transition: transform 0.2s, box-shadow 0.2s;
+            width: 80%;
+            font-family: 'Poppins', sans-serif;
+        }
+        
+        .btn-nav:hover { transform: scale(1.05); }
+
+        .btn-pumas {
+            background-color: #D4AF37;
+            color: #0A1C40;
+            box-shadow: 0 5px 15px rgba(212, 175, 55, 0.4);
+        }
+        
+        .btn-harry {
+            background-color: #fd79a8;
             color: #fff;
-            text-shadow: 1px 1px 2px rgba(0,0,0,0.8);
+            box-shadow: 0 5px 15px rgba(253, 121, 168, 0.4);
         }
 
-        .harry-text {
-            font-style: italic;
-            font-size: 1.3em;
-            color: #f7e8ff;
-            margin: 10px 0;
-            text-shadow: 0px 0px 8px #d68cff;
+        .btn-volver {
+            background-color: rgba(255,255,255,0.2);
+            color: white;
+            border: 2px solid white;
+            margin-top: auto; /* Empuja el botón al fondo */
+            width: auto;
         }
 
-        .icons-row {
-            font-size: 45px;
-            display: flex;
-            gap: 20px;
-            animation: float 3s infinite ease-in-out alternate;
+        /* 2. PANTALLA PUMAS */
+        #pumas-screen {
+            background: linear-gradient(135deg, #0A1C40 0%, #152b5e 100%);
+            border: 6px solid #D4AF37;
+            color: #D4AF37;
         }
+        #pumas-screen h1 { color: #D4AF37; text-shadow: 2px 2px 0 #0A1C40; }
 
-        @keyframes float {
-            0% { transform: translateY(-5px); }
-            100% { transform: translateY(5px); }
+        /* 3. PANTALLA HARRY STYLES */
+        #harry-screen {
+            background: linear-gradient(135deg, #9b59b6 0%, #fd79a8 100%);
+            border: 6px solid #fff;
+            color: white;
         }
+        #harry-screen h1 { color: #fff; text-shadow: 2px 2px 0 #9b59b6; }
+        .hs-text { font-style: italic; font-size: 1.2em; margin: 20px 0; }
 
         /* -------------------------------------
-           ENVOLTURA (Roja con listones morados)
+           ENVOLTURA PRINCIPAL (La que cae)
            ------------------------------------- */
         .wrapper {
             position: absolute;
             top: 0; left: 0; width: 100%; height: 100%;
             background-color: #e23636; 
-            border-radius: 15px;
-            box-shadow: 0 10px 30px rgba(0,0,0,0.5);
             cursor: pointer;
             display: flex;
             flex-direction: column;
@@ -118,14 +149,14 @@
                 linear-gradient(90deg, rgba(0, 0, 0, 0.2) 2px, transparent 2px);
             background-size: 30px 30px;
             transition: transform 1.2s cubic-bezier(0.55, 0.085, 0.68, 0.53), opacity 1s;
-            z-index: 10;
+            z-index: 50; /* Siempre al frente hasta que caiga */
         }
 
-        /* Listones en color morado */
+        /* Listones en color Azul Clásico */
         .wrapper::before, .wrapper::after {
             content: '';
             position: absolute;
-            background-color: #8e44ad; /* Detalles morados solicitados */
+            background-color: #003bbc; 
         }
 
         .wrapper::before {
@@ -146,7 +177,7 @@
 
         .bow-center {
             position: absolute;
-            z-index: 11;
+            z-index: 51;
             font-size: 80px;
             top: 50%;
             left: 50%;
@@ -157,14 +188,14 @@
         .click-text {
             position: absolute;
             bottom: 35px;
-            background: #8e44ad; /* Fondo morado para el botón */
+            background: #9b59b6; /* Detalle morado en el botón exterior */
             padding: 10px 25px;
             border-radius: 25px;
             color: white;
             font-family: 'Bangers', cursive;
             font-size: 1.8em;
             letter-spacing: 2px;
-            z-index: 11;
+            z-index: 51;
             animation: pulse 1.5s infinite;
             border: 3px solid #fff;
             box-shadow: 0 5px 15px rgba(0,0,0,0.4);
@@ -175,6 +206,7 @@
             50% { transform: scale(1.08); }
         }
 
+        /* Animación de caída */
         .wrapper.fall-down {
             transform: translateY(150vh) rotate(15deg);
             opacity: 0;
@@ -185,42 +217,63 @@
 </head>
 <body>
 
-<div class="gift-container">
+<div class="app-container">
     
-    <!-- CONTENIDO INTERIOR -->
-    <div class="content">
-        <h1>¡Sorpresa!</h1>
+    <!-- 1. BASE SPIDER-MAN (Centro de Control) -->
+    <div id="spidey-hub" class="screen active">
+        <h1>¡Multiverso!</h1>
+        <div class="flores">🌸🌺🕷️🌺🌸</div>
+        <p>Tu sentido arácnido te guiará. Elige una dimensión para explorar tu regalo:</p>
         
-        <div class="pumas-text">¡Goya! ¡Goya! 🐾⚽</div>
-        
-        <p class="spidey-text">
-            Tu sentido arácnido no falló, te espera un regalo espectacular... 🕸️
-        </p>
-
-        <p class="harry-text">
-            "Treat People With Kindness" 🍉🦋<br>
-            ¡Que tengas un día asombroso!
-        </p>
-        
-        <div class="icons-row">
-            <span>🕷️</span>
-            <span>🐾</span>
-            <span>🍉</span>
-        </div>
+        <button class="btn-nav btn-pumas" onclick="cambiarPantalla('pumas-screen')">⚽ Dimensión Pumas</button>
+        <button class="btn-nav btn-harry" onclick="cambiarPantalla('harry-screen')">🍉 Dimensión H. Styles</button>
     </div>
 
-    <!-- ENVOLTURA QUE CAE -->
+    <!-- 2. PANTALLA PUMAS -->
+    <div id="pumas-screen" class="screen">
+        <h1>¡GOYA!</h1>
+        <p style="font-size: 40px; margin: 10px 0;">🐾 ⚽ 🏟️</p>
+        <p>Desde el Olímpico Universitario hasta tu pantalla.</p>
+        <p><strong>Vale por:</strong> Un partido increíble o tu jersey favorito.</p>
+        <button class="btn-nav btn-volver" onclick="cambiarPantalla('spidey-hub')">🕸️ Volver a la Base</button>
+    </div>
+
+    <!-- 3. PANTALLA HARRY STYLES -->
+    <div id="harry-screen" class="screen">
+        <h1>Watermelon Sugar</h1>
+        <p class="hs-text">"Treat People With Kindness"<br>🌸 🦋 🍒</p>
+        <p>Bienvenido al mundo de TPWK.</p>
+        <p><strong>Vale por:</strong> Tu merch favorita o noche de música.</p>
+        <button class="btn-nav btn-volver" onclick="cambiarPantalla('spidey-hub')">🕸️ Volver a la Base</button>
+    </div>
+
+    <!-- ENVOLTURA QUE CAE (Cubre todo inicialmente) -->
     <div class="wrapper" id="giftWrapper" onclick="abrirRegalo()">
-        <div class="bow-center">💜</div>
+        <!-- Usamos un moño azul como texto para que coincida con el listón -->
+        <div class="bow-center">🎁</div> 
         <div class="click-text">¡Ábrelo!</div>
     </div>
 
 </div>
 
 <script>
+    // 1. Función para tirar la envoltura principal
     function abrirRegalo() {
         const wrapper = document.getElementById('giftWrapper');
         wrapper.classList.add('fall-down');
+    }
+
+    // 2. Función para navegar entre los distintos apartados (pantallas)
+    function cambiarPantalla(idPantallaDestino) {
+        // Ocultar todas las pantallas quitando la clase 'active'
+        const pantallas = document.querySelectorAll('.screen');
+        pantallas.forEach(pantalla => {
+            pantalla.classList.remove('active');
+        });
+
+        // Mostrar solo la pantalla solicitada
+        const pantallaDestino = document.getElementById(idPantallaDestino);
+        pantallaDestino.classList.add('active');
     }
 </script>
 

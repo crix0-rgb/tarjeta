@@ -1,279 +1,337 @@
 <!DOCTYPE html>
 <html lang="es">
 <head>
-    <meta charset="UTF-8">
-    <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Multiverso de la Amistad</title>
-    <style>
-        @import url('https://fonts.googleapis.com/css2?family=Montserrat:wght@300;400;600;700&display=swap');
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1, viewport-fit=cover">
+<title>Feliz Cumpleaños</title>
+<style>
+  :root{
+    --azul:#3b82f6; --azul-d:#0f1b4d;
+    --morado:#a78bfa; --morado-d:#3b1a6b;
+    --rosa:#f472b6;
+    --oro:#fbbf24; --marino:#0b1a3a;
+    --bg:#03040f;
+  }
+  *{box-sizing:border-box; margin:0; padding:0;}
+  html,body{height:100%; overflow:hidden; background:var(--bg); font-family:'Segoe UI',system-ui,sans-serif; color:#f2f2f7;}
 
-        body {
-            margin: 0;
-            overflow: hidden;
-            background-color: #03020a;
-            font-family: 'Montserrat', sans-serif;
-            color: white;
-            height: 100vh;
-            display: flex;
-            justify-content: center;
-            align-items: center;
-        }
+  #stars{position:fixed; inset:0; z-index:0; pointer-events:none;}
+  .estrella{position:absolute; width:2px; height:2px; background:#fff; border-radius:50%;
+    animation:parpadeo 3.4s infinite ease-in-out;}
+  @keyframes parpadeo{0%,100%{opacity:.15}50%{opacity:1}}
 
-        /* --------------------------------------------------
-           FONDO CÓSMICO PROFUNDO Y NEBULOSAS
-           -------------------------------------------------- */
-        .universe-bg {
-            position: fixed;
-            top: 0; left: 0; width: 100vw; height: 100vh;
-            background: radial-gradient(circle at 50% 50%, #1a0b36 0%, #070314 60%, #010105 100%);
-            z-index: 0;
-            overflow: hidden;
-        }
+  .pantalla{
+    position:fixed; inset:0; z-index:2; display:flex; flex-direction:column;
+    align-items:center; justify-content:center; text-align:center; padding:24px;
+    opacity:0; pointer-events:none; transition:opacity .5s ease;
+  }
+  .pantalla.activa{opacity:1; pointer-events:auto;}
+  h1{font-size:clamp(1.4rem,5vw,2.2rem); font-weight:700; margin-bottom:10px; letter-spacing:.5px;}
+  p.sub{max-width:460px; line-height:1.6; opacity:.92; font-size:1rem; margin-bottom:20px;}
 
-        /* Estrellas estáticas y campo de polvo */
-        .stars {
-            position: absolute;
-            top: 0; left: 0; width: 100%; height: 100%;
-            background-image: 
-                radial-gradient(white 1px, transparent 0),
-                radial-gradient(rgba(255,105,180,0.8) 1.5px, transparent 0),
-                radial-gradient(rgba(135,206,250,0.8) 2px, transparent 0);
-            background-size: 180px 180px, 300px 300px, 420px 420px;
-            background-position: 0 0, 60px 90px, 150px 200px;
-            opacity: 0.8;
-        }
+  #flash{position:fixed; inset:0; z-index:5; background:radial-gradient(circle, #fff, transparent 70%);
+    opacity:0; pointer-events:none; transform:scale(0);}
+  #flash.viajar{animation:destello .6s ease;}
+  @keyframes destello{0%{opacity:0; transform:scale(0);}35%{opacity:.9; transform:scale(1.4);}100%{opacity:0; transform:scale(2.2);}}
 
-        /* --------------------------------------------------
-           CONTENEDOR CENTRAL E INTERACTIVO (VÓRTICE)
-           -------------------------------------------------- */
-        .galaxy-scene {
-            position: relative;
-            width: 100vw; height: 100vh;
-            display: flex;
-            justify-content: center;
-            align-items: center;
-            z-index: 2;
-        }
+  .tarjeta{background:rgba(255,255,255,.04); border:1px solid rgba(255,255,255,.12);
+    border-radius:22px; padding:30px 26px; backdrop-filter:blur(6px); max-width:min(90vw,460px);}
 
-        /* Título superior dinámico */
-        .header-title {
-            position: absolute;
-            top: 45px;
-            width: 100%;
-            text-align: center;
-            z-index: 10;
-            pointer-events: none;
-        }
+  /* ---------- flores CSS ---------- */
+  .flor{position:absolute; width:30px; height:30px; opacity:.75; animation:girarFlor 12s linear infinite;}
+  .flor .petalo{position:absolute; width:14px; height:14px; border-radius:50% 50% 50% 0; top:8px; left:8px; transform-origin:0 0;}
+  .flor.morada .petalo{background:radial-gradient(circle at 30% 30%, #c9a6ff, var(--morado));}
+  .flor.rosa .petalo{background:radial-gradient(circle at 30% 30%, #ffd1e8, var(--rosa));}
+  .flor .petalo:nth-child(1){transform:rotate(0deg)} .flor .petalo:nth-child(2){transform:rotate(72deg)}
+  .flor .petalo:nth-child(3){transform:rotate(144deg)} .flor .petalo:nth-child(4){transform:rotate(216deg)}
+  .flor .petalo:nth-child(5){transform:rotate(288deg)}
+  @keyframes girarFlor{from{transform:rotate(0deg)}to{transform:rotate(360deg)}}
 
-        .header-title h1 {
-            font-size: 2.2em;
-            font-weight: 700;
-            margin: 0 0 8px 0;
-            letter-spacing: 1px;
-            text-shadow: 0 0 20px rgba(255, 255, 255, 0.6);
-        }
+  /* ================= REGALO ================= */
+  #envoltura{width:180px; height:150px; background:linear-gradient(135deg,#1e40af,#1e3a8a);
+    border-radius:14px; position:relative; cursor:pointer; box-shadow:0 0 60px rgba(59,130,246,.4);
+    transition:transform .5s ease, opacity .5s ease;}
+  #envoltura::before{content:''; position:absolute; inset:6px; border-radius:10px;
+    background-image:repeating-linear-gradient(45deg, rgba(255,255,255,.06) 0 2px, transparent 2px 14px),
+      repeating-linear-gradient(-45deg, rgba(255,255,255,.06) 0 2px, transparent 2px 14px);}
+  #liston-v{position:absolute; left:50%; top:0; bottom:0; width:26px; margin-left:-13px; background:#fbbf24;}
+  #liston-h{position:absolute; top:50%; left:0; right:0; height:26px; margin-top:-13px; background:#fbbf24;}
+  #moño{position:absolute; top:-22px; left:50%; transform:translateX(-50%); width:70px; height:44px;}
+  #moño::before,#moño::after{content:''; position:absolute; top:0; width:32px; height:32px; background:#fbbf24; border-radius:50% 50% 50% 0;}
+  #moño::before{left:0; transform:rotate(45deg);} #moño::after{right:0; transform:rotate(-45deg);}
+  .tip{margin-top:26px; font-size:.85rem; opacity:.7; animation:pulso 2s infinite;}
+  @keyframes pulso{0%,100%{opacity:.4}50%{opacity:.9}}
+  #envoltura.abriendo{animation:temblor .5s ease 2;}
+  @keyframes temblor{0%,100%{transform:rotate(0)}25%{transform:rotate(-4deg)}75%{transform:rotate(4deg)}}
+  #envoltura.caida{transform:translateY(600px) rotate(30deg); opacity:0;}
 
-        .header-title p {
-            font-size: 0.95em;
-            color: #cbd5e1;
-            font-weight: 300;
-            max-width: 500px;
-            margin: 0 auto;
-            line-height: 1.5;
-            padding: 0 20px;
-        }
+  /* ================= HUB: VÓRTEX GALAXIA ================= */
+  #vortex-wrap{position:relative; width:min(94vw,560px); height:min(78vh,560px); margin-top:6px;}
 
-        /* Sistema de Órbitas Elípticas Interactivas */
-        .orbit-system {
-            position: absolute;
-            width: 700px; height: 420px;
-            transform-style: preserve-3d;
-        }
+  #disco{position:absolute; left:50%; bottom:6%; width:100%; aspect-ratio:1/1; margin-left:-50%;
+    transform:rotateX(62deg); border-radius:50%; pointer-events:none;}
+  #disco .brazo{position:absolute; inset:0; border-radius:50%;
+    background:conic-gradient(from 0deg, rgba(59,130,246,.5), rgba(167,139,250,.4) 90deg,
+      rgba(3,4,15,0) 160deg, rgba(59,130,246,.5) 260deg, rgba(167,139,250,.4) 340deg, rgba(59,130,246,.5));
+    filter:blur(10px); animation:girar 26s linear infinite; opacity:.85;}
+  #disco .brazo2{position:absolute; inset:14%; border-radius:50%;
+    background:conic-gradient(from 90deg, rgba(251,191,36,.35), transparent 120deg, rgba(244,114,182,.3) 240deg, transparent 300deg);
+    filter:blur(8px); animation:girar 18s linear infinite reverse;}
+  #disco .anillo{position:absolute; border:1px solid rgba(255,255,255,.10); border-radius:50%;}
+  @keyframes girar{from{transform:rotate(0)}to{transform:rotate(360deg)}}
 
-        /* Vértice o centro del agujero negro / galaxia */
-        .vortex-center {
-            position: absolute;
-            top: 50%; left: 50%;
-            transform: translate(-50%, -50%);
-            width: 120px; height: 120px;
-            background: radial-gradient(circle, #000 30%, rgba(147, 51, 234, 0.6) 70%, transparent 100%);
-            border-radius: 50%;
-            box-shadow: 0 0 50px rgba(147, 51, 234, 0.8), inset 0 0 30px rgba(236, 72, 153, 0.5);
-            z-index: 1;
-            pointer-events: none;
-        }
+  #hoyo{position:absolute; left:50%; bottom:6%; width:30px; height:30px; margin-left:-15px;
+    border-radius:50%; background:#000; z-index:2;
+    box-shadow:0 0 0 6px rgba(59,130,246,.25), 0 0 40px 14px rgba(59,130,246,.5);}
+  #haz{position:absolute; left:50%; bottom:9%; width:70px; height:230px; margin-left:-35px;
+    clip-path:polygon(46% 100%, 54% 100%, 100% 0, 0 0);
+    background:linear-gradient(to top, rgba(147,197,253,.85), rgba(147,197,253,.05));
+    filter:blur(3px); z-index:2; animation:pulsoHaz 2.6s ease-in-out infinite;}
+  @keyframes pulsoHaz{0%,100%{opacity:.7}50%{opacity:1}}
 
-        /* Órbitas flotantes con palabras clave */
-        .orbit-node {
-            position: absolute;
-            padding: 10px 22px;
-            background: rgba(20, 10, 35, 0.65);
-            border: 1px solid rgba(255, 255, 255, 0.25);
-            border-radius: 30px;
-            font-size: 0.85em;
-            font-weight: 600;
-            letter-spacing: 0.8px;
-            cursor: pointer;
-            backdrop-filter: blur(8px);
-            transition: all 0.3s cubic-bezier(0.175, 0.885, 0.32, 1.275);
-            box-shadow: 0 8px 25px rgba(0, 0, 0, 0.5);
-            white-space: nowrap;
-            z-index: 5;
-        }
+  #arania{position:absolute; left:50%; bottom:52%; width:150px; height:150px; margin-left:-75px; z-index:3;
+    filter:drop-shadow(0 0 18px rgba(147,197,253,.9)) drop-shadow(0 0 34px rgba(59,130,246,.6));
+    animation:flotarArania 4.5s ease-in-out infinite;}
+  @keyframes flotarArania{0%,100%{transform:translateY(0)}50%{transform:translateY(-12px)}}
 
-        .orbit-node:hover {
-            background: rgba(219, 39, 119, 0.35);
-            border-color: #ff69b4;
-            transform: scale(1.15) translateY(-4px);
-            box-shadow: 0 0 25px rgba(255, 105, 180, 0.7);
-        }
+  .particula{position:absolute; width:4px; height:4px; border-radius:50%; background:#bfdbfe;
+    z-index:3; animation:subirParticula linear infinite;}
+  @keyframes subirParticula{0%{transform:translateY(0) scale(1); opacity:.9;}100%{transform:translateY(-260px) scale(.3); opacity:0;}}
 
-        /* Posicionamiento dinámico simulando el diseño de la referencia */
-        .node-1 { top: 15%; left: 8%; }
-        .node-2 { top: 8%; right: 15%; }
-        .node-3 { top: 42%; left: 2%; }
-        .node-4 { top: 48%; right: 5%; }
-        .node-5 { bottom: 18%; left: 18%; }
-        .node-6 { bottom: 15%; right: 22%; }
-        .node-7 { top: 30%; left: 32%; background: rgba(219, 39, 119, 0.2); border-color: #ff69b4; }
+  .frase{position:absolute; z-index:3; font-size:.78rem; font-weight:600; letter-spacing:.5px;
+    color:#e6ecff; text-shadow:0 0 8px rgba(147,197,253,.8), 0 0 18px rgba(147,197,253,.4);
+    animation:flotarFrase 5s ease-in-out infinite; white-space:nowrap; opacity:.85;}
+  .frase.link{cursor:pointer; padding:6px 12px; border:1px solid rgba(255,255,255,.25); border-radius:20px;
+    background:rgba(59,130,246,.12); transition:transform .2s ease, background .2s ease;}
+  .frase.link:hover{transform:scale(1.12); background:rgba(59,130,246,.28);}
+  @keyframes flotarFrase{0%,100%{transform:translateY(0)}50%{transform:translateY(-9px)}}
 
-        /* --------------------------------------------------
-           MODALES / VENTANAS EMERGENTES DE CADA MUNDO
-           -------------------------------------------------- */
-        .modal-overlay {
-            position: fixed; top: 0; left: 0; width: 100vw; height: 100vh;
-            background: rgba(2, 0, 8, 0.88); backdrop-filter: blur(12px);
-            display: flex; justify-content: center; align-items: center;
-            opacity: 0; pointer-events: none; transition: opacity 0.35s ease; z-index: 100;
-        }
-        .modal-overlay.active { opacity: 1; pointer-events: auto; }
+  .volver{margin-top:22px; background:none; border:1px solid rgba(255,255,255,.35); color:#fff;
+    padding:9px 22px; border-radius:30px; cursor:pointer; font-size:.85rem; transition:.2s; z-index:4;}
+  .volver:hover{background:rgba(255,255,255,.12);}
 
-        .modal-card {
-            background: linear-gradient(145deg, rgba(30, 12, 55, 0.95), rgba(10, 4, 20, 0.98));
-            border: 1px solid rgba(255, 105, 180, 0.4);
-            border-radius: 22px;
-            padding: 35px 30px;
-            width: 85%; max-width: 380px;
-            text-align: center;
-            transform: scale(0.8) translateY(30px);
-            transition: all 0.4s cubic-bezier(0.175, 0.885, 0.32, 1.275);
-            box-shadow: 0 30px 70px rgba(0, 0, 0, 0.9), 0 0 30px rgba(147, 51, 234, 0.3);
-        }
+  /* ================= PUMAS ================= */
+  #manada-emblema{width:120px; height:120px; border-radius:50%; margin-bottom:18px; position:relative;
+    background:radial-gradient(circle at 35% 30%, #1d4ed8, var(--marino) 70%);
+    box-shadow:0 0 50px rgba(251,191,36,.4); animation:rugir 1.8s ease-in-out infinite;}
+  #manada-emblema::before{content:''; position:absolute; width:64px; height:9px; top:36px; left:28px;
+    transform:rotate(-20deg); border-radius:6px; background:var(--oro); opacity:.85;
+    box-shadow:0 20px 0 -2px var(--oro), 0 40px 0 -4px var(--oro);}
+  @keyframes rugir{0%,100%{transform:scale(1)}50%{transform:scale(1.06)}}
 
-        .modal-overlay.active .modal-card { transform: scale(1) translateY(0); }
+  /* ================= HARRY STYLES ================= */
+  #escenario-emblema{width:120px; height:120px; border-radius:50%; margin-bottom:18px; position:relative;
+    background:radial-gradient(circle at 35% 30%, #f472b6, #6d28d9 70%);
+    box-shadow:0 0 50px rgba(244,114,182,.45); animation:brillar 2.6s ease-in-out infinite;}
+  @keyframes brillar{0%,100%{box-shadow:0 0 50px rgba(244,114,182,.45)}50%{box-shadow:0 0 80px rgba(244,114,182,.7)}}
+  .chispas span{position:absolute; width:4px; height:4px; background:#fff; border-radius:50%; animation:flotar 4s infinite ease-in-out;}
 
-        .modal-card h2 {
-            font-size: 1.5em; margin: 0 0 12px 0; color: #ff69b4;
-            letter-spacing: 0.5px;
-        }
+  /* ================= LA MENTE ================= */
+  #mente-emblema{width:120px; height:120px; border-radius:50%; margin-bottom:18px; position:relative;
+    background:radial-gradient(circle at 35% 30%, #a78bfa, #3b1a6b 70%); box-shadow:0 0 50px rgba(167,139,250,.45);}
+  #mente-emblema::before{content:''; position:absolute; inset:18px; border-radius:50%;
+    background-image:repeating-conic-gradient(rgba(255,255,255,.15) 0 8deg, transparent 8deg 16deg);
+    animation:girar 14s linear infinite;}
+  .nota-editable{max-width:440px; background:rgba(167,139,250,.12); border:1px dashed rgba(167,139,250,.5);
+    border-radius:14px; padding:14px 18px; font-size:.9rem; line-height:1.6; margin-bottom:18px; text-align:left;}
 
-        .modal-card p {
-            font-size: 0.95em; line-height: 1.6; color: #e2e8f0; margin-bottom: 24px; font-weight: 300;
-        }
+  /* ================= FINAL: ANOMALÍA ================= */
+  #anillo{width:160px; height:160px; border-radius:50%; position:relative; margin-bottom:20px;}
+  #anillo::before{content:''; position:absolute; inset:0; border-radius:50%;
+    background:conic-gradient(from 0deg, var(--azul), var(--oro), var(--rosa), var(--morado), var(--azul));
+    animation:girar 5s linear infinite; filter:blur(1px);}
+  #anillo::after{content:''; position:absolute; inset:14px; border-radius:50%; background:var(--bg);}
+  .fragmento{position:absolute; width:8px; height:8px; border-radius:50%; animation:orbitar 6s linear infinite;}
+  @keyframes flotar{0%,100%{transform:translateY(0)}50%{transform:translateY(-14px)}}
+  @keyframes orbitar{from{transform:rotate(0) translateX(85px) rotate(0)}to{transform:rotate(360deg) translateX(85px) rotate(-360deg)}}
 
-        .close-btn {
-            background: linear-gradient(135deg, #db2777, #9333ea);
-            color: white; border: none; padding: 11px 26px;
-            border-radius: 25px; font-weight: 600; cursor: pointer;
-            transition: transform 0.2s, box-shadow 0.2s;
-            box-shadow: 0 5px 20px rgba(219, 39, 119, 0.5);
-            font-family: 'Montserrat', sans-serif;
-        }
-        .close-btn:hover { transform: scale(1.05); box-shadow: 0 7px 22px rgba(219, 39, 119, 0.8); }
-
-    </style>
+  @media (max-width:480px){ .frase{font-size:.66rem;} #arania{width:110px; height:110px; margin-left:-55px;} }
+</style>
 </head>
 <body>
 
-<div class="universe-bg">
-    <div class="stars"></div>
+<div id="stars"></div>
+<div id="flash"></div>
+
+<!-- ===== PANTALLA 1: REGALO ===== -->
+<div class="pantalla activa" id="p-regalo">
+  <div id="envoltura" onclick="abrir()">
+    <div id="moño"></div><div id="liston-v"></div><div id="liston-h"></div>
+  </div>
+  <div class="tip">toca el regalo</div>
 </div>
 
-<div class="header-title">
-    <h1>Feliz Cumpleaños</h1>
-    <p>Se abrió una grieta entre universos, solo para ti. Toca cualquier palabra flotando alrededor del vórtice para cruzar a ese mundo.</p>
+<!-- ===== PANTALLA 2: HUB / VÓRTEX ===== -->
+<div class="pantalla" id="p-hub">
+  <h1>Feliz cumpleaños</h1>
+  <p class="sub">Se abrió una grieta entre universos, solo para ti. Toca cualquier palabra flotando
+    alrededor del vórtex para cruzar a ese mundo.</p>
+  <div id="vortex-wrap">
+    <div id="disco"><div class="brazo"></div><div class="brazo2"></div></div>
+    <div id="hoyo"></div>
+    <div id="haz"></div>
+    <div id="particulas"></div>
+    <svg id="arania" viewBox="0 0 100 100">
+      <defs>
+        <radialGradient id="gAr" cx="45%" cy="35%" r="65%">
+          <stop offset="0%" stop-color="#eaf2ff"/>
+          <stop offset="55%" stop-color="#93c5fd"/>
+          <stop offset="100%" stop-color="#2563eb"/>
+        </radialGradient>
+      </defs>
+      <g fill="none" stroke="url(#gAr)" stroke-width="3.4" stroke-linecap="round">
+        <path d="M50 46 L20 30 M50 46 L14 46 M50 46 L20 62 M50 46 L28 76"/>
+        <path d="M50 46 L80 30 M50 46 L86 46 M50 46 L80 62 M50 46 L72 76"/>
+      </g>
+      <ellipse cx="50" cy="46" rx="13" ry="17" fill="url(#gAr)"/>
+      <circle cx="50" cy="30" r="9" fill="url(#gAr)"/>
+    </svg>
+    <div id="frases"></div>
+  </div>
 </div>
 
-<div class="galaxy-scene">
-    <div class="orbit-system">
-        <div class="vortex-center"></div>
+<!-- ===== PORTAL: PUMAS ===== -->
+<div class="pantalla" id="p-manada">
+  <div class="tarjeta">
+    <div id="manada-emblema"></div>
+    <h1>La Manada</h1>
+    <p class="sub">Donde el azul y el oro rugen más fuerte que nadie. Por más lejos que estés,
+      siempre hay una manada esperándote — ¡arriba Pumas! 🐾</p>
+    <button class="volver" onclick="viajar('p-hub')">volver al vórtex</button>
+  </div>
+</div>
 
-        <div class="orbit-node node-1" onclick="abrirModal('mod-magia')">✨ ERES MAGIA</div>
-        <div class="orbit-node node-2" onclick="abrirModal('mod-multiverso')">🌌 MULTIVERSO</div>
-        <div class="orbit-node node-3" onclick="abrirModal('mod-amistad')">💖 AMISTAD INFINITA</div>
-        <div class="orbit-node node-4" onclick="abrirModal('mod-dia')">🌟 ES TU DÍA</div>
-        <div class="orbit-node node-5" onclick="abrirModal('mod-manada')">🐾 LA MANADA</div>
-        <div class="orbit-node node-6" onclick="abrirModal('mod-anomalia')">🔮 LA ANOMALÍA</div>
-        <div class="orbit-node node-7" onclick="abrirModal('mod-escenario')">🎭 EL ESCENARIO</div>
+<!-- ===== PORTAL: HARRY STYLES ===== -->
+<div class="pantalla" id="p-escenario">
+  <div class="tarjeta">
+    <div id="escenario-emblema"></div>
+    <div class="chispas" id="chispas-contenedor"></div>
+    <h1>El Escenario</h1>
+    <p class="sub">Un mundo con brillo, plumas y una voz que suena a libertad.
+      Que este año siga sonando la canción que más te hace bailar sola en tu cuarto.</p>
+    <button class="volver" onclick="viajar('p-hub')">volver al vórtex</button>
+  </div>
+</div>
+
+<!-- ===== PORTAL: LA MENTE ===== -->
+<div class="pantalla" id="p-mente">
+  <div class="tarjeta">
+    <div id="mente-emblema"></div>
+    <h1>La Mente</h1>
+    <div class="nota-editable">
+      Aquí puedes escribir algo sobre lo que más admiras de su forma de acompañar y entender a los niños,
+      o sobre ese camino que está construyendo en la psicología infantil y educativa.
     </div>
+    <button class="volver" onclick="viajar('p-hub')">volver al vórtex</button>
+  </div>
 </div>
 
-<div class="modal-overlay" id="overlay-mod-magia">
-    <div class="modal-card">
-        <h2>Magia Pura</h2>
-        <p>Tienes una luz y una energía increíble que ilumina a todos los que te rodean. Nunca dejes de brillar con esa intensidad.</p>
-        <button class="close-btn" onclick="cerrarModal('mod-magia')">Volver al vórtice</button>
+<!-- ===== PORTAL FINAL: ANOMALÍA ===== -->
+<div class="pantalla" id="p-anomalia">
+  <div class="tarjeta">
+    <div id="anillo">
+      <span class="fragmento" style="background:var(--azul); animation-delay:0s"></span>
+      <span class="fragmento" style="background:var(--oro); animation-delay:1.5s"></span>
+      <span class="fragmento" style="background:var(--rosa); animation-delay:3s"></span>
+      <span class="fragmento" style="background:var(--morado); animation-delay:4.5s"></span>
     </div>
-</div>
-
-<div class="modal-overlay" id="overlay-mod-multiverso">
-    <div class="modal-card">
-        <h2>Multiverso Compartido</h2>
-        <p>No importa en qué realidad estemos, nuestras locuras y momentos compartidos siempre trascienden cualquier dimensión.</p>
-        <button class="close-btn" onclick="cerrarModal('mod-multiverso')">Volver al vórtice</button>
-    </div>
-</div>
-
-<div class="modal-overlay" id="overlay-mod-amistad">
-    <div class="modal-card">
-        <h2>Amistad Infinita</h2>
-        <p>Gracias por estar siempre, por las risas ilimitadas y por ser una de las personas más auténticas y valiosas de mi vida.</p>
-        <button class="close-btn" onclick="cerrarModal('mod-amistad')">Volver al vórtice</button>
-    </div>
-</div>
-
-<div class="modal-overlay" id="overlay-mod-dia">
-    <div class="modal-card">
-        <h2>¡Es Tu Día!</h2>
-        <p>Disfruta al máximo cada segundo de este cumpleaños. Te mereces absolutamente lo mejor hoy y siempre.</p>
-        <button class="close-btn" onclick="cerrarModal('mod-dia')">Volver al vórtice</button>
-    </div>
-</div>
-
-<div class="modal-overlay" id="overlay-mod-manada">
-    <div class="modal-card">
-        <h2>La Manada</h2>
-        <p>Actitud imparable, lealtad y garra para superar cualquier obstáculo que se ponga enfrente. ¡Orgullo total!</p>
-        <button class="close-btn" onclick="cerrarModal('mod-manada')">Volver al vórtice</button>
-    </div>
-</div>
-
-<div class="modal-overlay" id="overlay-mod-anomalia">
-    <div class="modal-card">
-        <h2>La Anomalía</h2>
-        <p>Existen personas únicas que rompen con lo ordinario... tú eres esa anomalía perfecta que hace que todo sea más divertido.</p>
-        <button class="close-btn" onclick="cerrarModal('mod-anomalia')">Volver al vórtice</button>
-    </div>
-</div>
-
-<div class="modal-overlay" id="overlay-mod-escenario">
-    <div class="modal-card">
-        <h2>El Escenario</h2>
-        <p>La vida es una gran tarima y tú sabes cómo protagonizarla con estilo, elegancia y una vibra inigualable.</p>
-        <button class="close-btn" onclick="cerrarModal('mod-escenario')">Volver al vórtice</button>
-    </div>
+    <h1>La Anomalía</h1>
+    <p class="sub">Cuando todos estos mundos colisionan —el rugido, el escenario y la mente— nace algo
+      que no existe en ningún otro universo: la persona que eres tú. Feliz cumpleaños, amiga. 💫</p>
+    <button class="volver" onclick="viajar('p-hub')">volver al vórtex</button>
+  </div>
 </div>
 
 <script>
-    // --- LÓGICA DE APERTURA Y CIERRE DE MODALES ---
-    function abrirModal(id) {
-        document.getElementById('overlay-' + id).classList.add('active');
-    }
+  // estrellas
+  const cont = document.getElementById('stars');
+  for(let i=0;i<130;i++){
+    const s=document.createElement('div'); s.className='estrella';
+    s.style.top=Math.random()*100+'%'; s.style.left=Math.random()*100+'%';
+    s.style.animationDelay=(Math.random()*3.4)+'s';
+    const t=Math.random()*2+1; s.style.width=s.style.height=t+'px';
+    s.style.opacity=.3+Math.random()*.5; cont.appendChild(s);
+  }
 
-    function cerrarModal(id) {
-        document.getElementById('overlay-' + id).classList.remove('active');
-    }
+  // anillos guía del disco
+  const disco = document.getElementById('disco');
+  [30,50,70,90].forEach(p=>{
+    const a=document.createElement('div'); a.className='anillo';
+    a.style.inset=(50-p/2)+'%'; disco.appendChild(a);
+  });
+
+  // partículas subiendo desde el hoyo
+  const pcont = document.getElementById('particulas');
+  for(let i=0;i<26;i++){
+    const p=document.createElement('div'); p.className='particula';
+    const ang=(Math.random()*70-35);
+    p.style.left='calc(50% + '+ (Math.sin(ang*Math.PI/180)*30)+'px)';
+    p.style.bottom='12%';
+    p.style.animationDuration=(2.5+Math.random()*2)+'s';
+    p.style.animationDelay=(Math.random()*3)+'s';
+    pcont.appendChild(p);
+  }
+
+  // frases flotando alrededor del vórtex (posiciones en %)
+  const frases = [
+    {t:'4%',  l:'8%',  txt:'FELIZ CUMPLEAÑOS'},
+    {t:'2%',  l:'62%', txt:'ERES MAGIA'},
+    {t:'20%', l:'2%',  txt:'MULTIVERSO'},
+    {t:'18%', l:'80%', txt:'DIMENSIÓN X'},
+    {t:'40%', l:'88%', txt:'ES TU DÍA'},
+    {t:'42%', l:'0%',  txt:'AMISTAD INFINITA'},
+    {t:'34%', l:'20%', txt:'LA MANADA', ir:'p-manada'},
+    {t:'30%', l:'58%', txt:'EL ESCENARIO', ir:'p-escenario'},
+    {t:'54%', l:'34%', txt:'LA MENTE', ir:'p-mente'},
+    {t:'52%', l:'70%', txt:'LA ANOMALÍA', ir:'p-anomalia'}
+  ];
+  const fcont = document.getElementById('frases');
+  frases.forEach((f,i)=>{
+    const d=document.createElement('div');
+    d.className='frase'+(f.ir?' link':'');
+    d.textContent=f.txt;
+    d.style.top=f.t; d.style.left=f.l;
+    d.style.animationDelay=(i*0.4)+'s';
+    if(f.ir) d.onclick=()=>viajar(f.ir);
+    fcont.appendChild(d);
+  });
+
+  // flores en pantallas de portal
+  document.querySelectorAll('#p-manada,#p-escenario,#p-mente,#p-anomalia').forEach((scr,idx)=>{
+    const pos = idx%2===0 ? [{t:'8%',l:'6%',c:'morada'},{t:'82%',l:'88%',c:'rosa'}]
+                           : [{t:'10%',l:'86%',c:'rosa'},{t:'84%',l:'8%',c:'morada'}];
+    pos.forEach(p=>{
+      const f=document.createElement('div'); f.className='flor '+p.c;
+      f.style.top=p.t; f.style.left=p.l; f.innerHTML='<div class="petalo"></div>'.repeat(5);
+      scr.appendChild(f);
+    });
+  });
+
+  // chispas HS
+  const chispas = document.getElementById('chispas-contenedor');
+  for(let i=0;i<10;i++){
+    const c=document.createElement('span');
+    c.style.left=(Math.random()*220-20)+'px'; c.style.top=(Math.random()*140+10)+'px';
+    c.style.animationDelay=(Math.random()*4)+'s'; chispas.appendChild(c);
+  }
+
+  function viajar(id){
+    const flash=document.getElementById('flash');
+    flash.classList.remove('viajar'); void flash.offsetWidth; flash.classList.add('viajar');
+    setTimeout(()=>{
+      document.querySelectorAll('.pantalla').forEach(p=>p.classList.resovet ? p.classList.remove('activa') : p.classList.remove('activa'));
+      document.querySelectorAll('.pantalla').forEach(p=>p.classList.remove('activa'));
+      document.getElementById(id).classList.add('activa');
+    },260);
+  }
+  function abrir(){
+    const env=document.getElementById('envoltura');
+    env.classList.add('abriendo');
+    setTimeout(()=>{
+      env.classList.remove('abriendo'); env.classList.add('caida');
+      setTimeout(()=>viajar('p-hub'),450);
+    },900);
+  }
 </script>
-
 </body>
 </html>

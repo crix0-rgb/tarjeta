@@ -119,23 +119,21 @@
     box-shadow:0 20px 0 -2px var(--oro), 0 40px 0 -4px var(--oro);}
   @keyframes rugir{0%,100%{transform:scale(1)}50%{transform:scale(1.06)}}
 
-  /* ================= HARRY STYLES ================= */
+  /* ================= HARRY ================= */
   #escenario-emblema{width:120px; height:120px; border-radius:50%; margin-bottom:18px; position:relative;
     background:radial-gradient(circle at 35% 30%, #f472b6, #6d28d9 70%);
     box-shadow:0 0 50px rgba(244,114,182,.45); animation:brillar 2.6s ease-in-out infinite;}
   @keyframes brillar{0%,100%{box-shadow:0 0 50px rgba(244,114,182,.45)}50%{box-shadow:0 0 80px rgba(244,114,182,.7)}}
   .chispas span{position:absolute; width:4px; height:4px; background:#fff; border-radius:50%; animation:flotar 4s infinite ease-in-out;}
 
-  /* ================= LA MENTE ================= */
+  /* ================= PSIC ================= */
   #mente-emblema{width:120px; height:120px; border-radius:50%; margin-bottom:18px; position:relative;
     background:radial-gradient(circle at 35% 30%, #a78bfa, #3b1a6b 70%); box-shadow:0 0 50px rgba(167,139,250,.45);}
   #mente-emblema::before{content:''; position:absolute; inset:18px; border-radius:50%;
     background-image:repeating-conic-gradient(rgba(255,255,255,.15) 0 8deg, transparent 8deg 16deg);
     animation:girar 14s linear infinite;}
-  .nota-editable{max-width:440px; background:rgba(167,139,250,.12); border:1px dashed rgba(167,139,250,.5);
-    border-radius:14px; padding:14px 18px; font-size:.9rem; line-height:1.6; margin-bottom:18px; text-align:left;}
 
-  /* ================= FINAL: ANOMALÍA ================= */
+  /* ================= ¿MULTIVERSO? ================= */
   #anillo{width:160px; height:160px; border-radius:50%; position:relative; margin-bottom:20px;}
   #anillo::before{content:''; position:absolute; inset:0; border-radius:50%;
     background:conic-gradient(from 0deg, var(--azul), var(--oro), var(--rosa), var(--morado), var(--azul));
@@ -190,43 +188,38 @@
   </div>
 </div>
 
-<!-- ===== PORTAL: PUMAS ===== -->
+<!-- ===== PORTAL: LA MANADA ===== -->
 <div class="pantalla" id="p-manada">
   <div class="tarjeta">
     <div id="manada-emblema"></div>
     <h1>La Manada</h1>
-    <p class="sub">Donde el azul y el oro rugen más fuerte que nadie. Por más lejos que estés,
-      siempre hay una manada esperándote — ¡arriba Pumas! 🐾</p>
+    <p class="sub">Muchas gracias por acompañarme y compartir el dolor que nos une, aunque nos han causado más decepciones que alegrías no dejaríamos de lado nuestro corazón y nuestra piel dorada. ¡CEU CEU PUMASS! 🐾</p>
     <button class="volver" onclick="viajar('p-hub')">volver al vórtex</button>
   </div>
 </div>
 
-<!-- ===== PORTAL: HARRY STYLES ===== -->
+<!-- ===== PORTAL: HARRY ===== -->
 <div class="pantalla" id="p-escenario">
   <div class="tarjeta">
     <div id="escenario-emblema"></div>
     <div class="chispas" id="chispas-contenedor"></div>
-    <h1>El Escenario</h1>
-    <p class="sub">Un mundo con brillo, plumas y una voz que suena a libertad.
-      Que este año siga sonando la canción que más te hace bailar sola en tu cuarto.</p>
+    <h1>Harry</h1>
+    <p class="sub">Que el amor por la música y por Harry nunca deje de estar en ti 🎶✨</p>
     <button class="volver" onclick="viajar('p-hub')">volver al vórtex</button>
   </div>
 </div>
 
-<!-- ===== PORTAL: LA MENTE ===== -->
+<!-- ===== PORTAL: PSIC ===== -->
 <div class="pantalla" id="p-mente">
   <div class="tarjeta">
     <div id="mente-emblema"></div>
-    <h1>La Mente</h1>
-    <div class="nota-editable">
-      Aquí puedes escribir algo sobre lo que más admiras de su forma de acompañar y entender a los niños,
-      o sobre ese camino que está construyendo en la psicología infantil y educativa.
-    </div>
+    <h1>Psic</h1>
+    <p class="sub">Eres muy buena en lo que haces, por algo has logrado tantas cosas, y recuérdalo: tus niñas siempre te van a querer y nunca te van a olvidar 🧠💖</p>
     <button class="volver" onclick="viajar('p-hub')">volver al vórtex</button>
   </div>
 </div>
 
-<!-- ===== PORTAL FINAL: ANOMALÍA ===== -->
+<!-- ===== PORTAL FINAL: ¿MULTIVERSO? ===== -->
 <div class="pantalla" id="p-anomalia">
   <div class="tarjeta">
     <div id="anillo">
@@ -235,9 +228,8 @@
       <span class="fragmento" style="background:var(--rosa); animation-delay:3s"></span>
       <span class="fragmento" style="background:var(--morado); animation-delay:4.5s"></span>
     </div>
-    <h1>La Anomalía</h1>
-    <p class="sub">Cuando todos estos mundos colisionan —el rugido, el escenario y la mente— nace algo
-      que no existe en ningún otro universo: la persona que eres tú. Feliz cumpleaños, amiga. 💫</p>
+    <h1>¿Multiverso?</h1>
+    <p class="sub">En este o cualquier universo, qué fortuna coincidir contigo. ¡Feliz cumpleaños! 🌌💫</p>
     <button class="volver" onclick="viajar('p-hub')">volver al vórtex</button>
   </div>
 </div>
@@ -272,18 +264,21 @@
     pcont.appendChild(p);
   }
 
-  // frases flotando alrededor del vórtex (posiciones en %)
+  // más palabras flotantes alrededor del vórtex
   const frases = [
     {t:'4%',  l:'8%',  txt:'FELIZ CUMPLEAÑOS'},
     {t:'2%',  l:'62%', txt:'ERES MAGIA'},
+    {t:'14%', l:'38%', txt:'UNIVERSO PARALELO'},
     {t:'20%', l:'2%',  txt:'MULTIVERSO'},
     {t:'18%', l:'80%', txt:'DIMENSIÓN X'},
     {t:'40%', l:'88%', txt:'ES TU DÍA'},
     {t:'42%', l:'0%',  txt:'AMISTAD INFINITA'},
+    {t:'65%', l:'5%',  txt:'DESTINO ESTELAR'},
+    {t:'72%', l:'82%', txt:'INFINITO'},
     {t:'34%', l:'20%', txt:'LA MANADA', ir:'p-manada'},
-    {t:'30%', l:'58%', txt:'EL ESCENARIO', ir:'p-escenario'},
-    {t:'54%', l:'34%', txt:'LA MENTE', ir:'p-mente'},
-    {t:'52%', l:'70%', txt:'LA ANOMALÍA', ir:'p-anomalia'}
+    {t:'30%', l:'58%', txt:'HARRY', ir:'p-escenario'},
+    {t:'54%', l:'34%', txt:'PSIC', ir:'p-mente'},
+    {t:'52%', l:'70%', txt:'¿MULTIVERSO?', ir:'p-anomalia'}
   ];
   const fcont = document.getElementById('frases');
   frases.forEach((f,i)=>{
@@ -291,7 +286,7 @@
     d.className='frase'+(f.ir?' link':'');
     d.textContent=f.txt;
     d.style.top=f.t; d.style.left=f.l;
-    d.style.animationDelay=(i*0.4)+'s';
+    d.style.animationDelay=(i*0.3)+'s';
     if(f.ir) d.onclick=()=>viajar(f.ir);
     fcont.appendChild(d);
   });
@@ -319,7 +314,6 @@
     const flash=document.getElementById('flash');
     flash.classList.remove('viajar'); void flash.offsetWidth; flash.classList.add('viajar');
     setTimeout(()=>{
-      document.querySelectorAll('.pantalla').forEach(p=>p.classList.resovet ? p.classList.remove('activa') : p.classList.remove('activa'));
       document.querySelectorAll('.pantalla').forEach(p=>p.classList.remove('activa'));
       document.getElementById(id).classList.add('activa');
     },260);

@@ -133,6 +133,11 @@
     background-image:repeating-conic-gradient(rgba(255,255,255,.15) 0 8deg, transparent 8deg 16deg);
     animation:girar 14s linear infinite;}
 
+  /* ================= ERES ================= */
+  #eres-emblema{width:120px; height:120px; border-radius:50%; margin-bottom:18px; position:relative;
+    background:radial-gradient(circle at 35% 30%, #34d399, #065f46 70%);
+    box-shadow:0 0 50px rgba(52,211,153,.45); animation:brillar 2.6s ease-in-out infinite;}
+
   /* ================= ¿MULTIVERSO? ================= */
   #anillo{width:160px; height:160px; border-radius:50%; position:relative; margin-bottom:20px;}
   #anillo::before{content:''; position:absolute; inset:0; border-radius:50%;
@@ -162,8 +167,8 @@
 <!-- ===== PANTALLA 2: HUB / VÓRTEX ===== -->
 <div class="pantalla" id="p-hub">
   <h1>Feliz cumpleaños</h1>
-  <p class="sub">Hoy en tu cumpleaños tienes un llamado de la AVT ¿El multiverso corre peligro?
-  eres la ideal para descubrirlo.</p>
+  <p class="sub">Hoy en tu cumpleaños tienes un llamado de la AVT. ¿El multiverso corre peligro?
+    Eres la ideal para descubrirlo.</p>
   <div id="vortex-wrap">
     <div id="disco"><div class="brazo"></div><div class="brazo2"></div></div>
     <div id="hoyo"></div>
@@ -219,6 +224,25 @@
   </div>
 </div>
 
+<!-- ===== PORTAL: TEAM CAP O TEAM IRON ===== -->
+<div class="pantalla" id="p-team">
+  <div class="tarjeta">
+    <h1>Team Cap o Team Iron</h1>
+    <p class="sub">Aunque en todo no estemos de acuerdo y sea nuestra batalla constante, no cambia nada, yo tqm 🛡️🤖</p>
+    <button class="volver" onclick="viajar('p-hub')">volver al vórtex</button>
+  </div>
+</div>
+
+<!-- ===== PORTAL: ERES ===== -->
+<div class="pantalla" id="p-eres">
+  <div class="tarjeta">
+    <div id="eres-emblema"></div>
+    <h1>Eres</h1>
+    <p class="sub">Muchas gracias por compartir tus experiencias conmigo, por platicarme de tus choco aventuras y en explicarme muchas cosas, sabes que siempre te voy a escuchar y disfruta mucho tu día tqm 💚✨</p>
+    <button class="volver" onclick="viajar('p-hub')">volver al vórtex</button>
+  </div>
+</div>
+
 <!-- ===== PORTAL FINAL: ¿MULTIVERSO? ===== -->
 <div class="pantalla" id="p-anomalia">
   <div class="tarjeta">
@@ -229,7 +253,7 @@
       <span class="fragmento" style="background:var(--morado); animation-delay:4.5s"></span>
     </div>
     <h1>¿Multiverso?</h1>
-    <p class="sub">En este o cualquier universo, ¿Como no te voy a querer? ¡Feliz cumpleaños! 🌌💫</p>
+    <p class="sub">En este o cualquier universo, ¿cómo no te voy a querer? ¡Feliz cumpleaños! 🌌💫</p>
     <button class="volver" onclick="viajar('p-hub')">volver al vórtex</button>
   </div>
 </div>
@@ -264,10 +288,10 @@
     pcont.appendChild(p);
   }
 
-  // más palabras flotantes alrededor del vórtex
+  // palabras flotantes alrededor del vórtex (con y sin enlace)
   const frases = [
     {t:'4%',  l:'8%',  txt:'FELIZ CUMPLEAÑOS'},
-    {t:'2%',  l:'62%', txt:'TEAM CAP O TEAM IRON'},
+    {t:'2%',  l:'62%', txt:'TEAM CAP O TEAM IRON', ir:'p-team'},
     {t:'14%', l:'38%', txt:'UNIVERSO PARALELO'},
     {t:'20%', l:'2%',  txt:'MULTIVERSO'},
     {t:'18%', l:'80%', txt:'DESTRUCCION DE UNIVERSOS?'},
@@ -275,9 +299,11 @@
     {t:'42%', l:'0%',  txt:'TE QUIERO MUCHO'},
     {t:'65%', l:'5%',  txt:'SPIDEEERRR'},
     {t:'72%', l:'82%', txt:'LLEGARA LA 8VA'},
+    {t:'82%', l:'40%', txt:'LA RACHAAAAAA'},
     {t:'34%', l:'20%', txt:'LA MANADA', ir:'p-manada'},
     {t:'30%', l:'58%', txt:'HARRY', ir:'p-escenario'},
     {t:'54%', l:'34%', txt:'PSIC', ir:'p-mente'},
+    {t:'60%', l:'65%', txt:'ERES', ir:'p-eres'},
     {t:'52%', l:'70%', txt:'¿MULTIVERSO?', ir:'p-anomalia'}
   ];
   const fcont = document.getElementById('frases');
@@ -292,7 +318,7 @@
   });
 
   // flores en pantallas de portal
-  document.querySelectorAll('#p-manada,#p-escenario,#p-mente,#p-anomalia').forEach((scr,idx)=>{
+  document.querySelectorAll('#p-manada,#p-escenario,#p-mente,#p-team,#p-eres,#p-anomalia').forEach((scr,idx)=>{
     const pos = idx%2===0 ? [{t:'8%',l:'6%',c:'morada'},{t:'82%',l:'88%',c:'rosa'}]
                            : [{t:'10%',l:'86%',c:'rosa'},{t:'84%',l:'8%',c:'morada'}];
     pos.forEach(p=>{
